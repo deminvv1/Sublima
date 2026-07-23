@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SUBLIMA — Заказ</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+      :root {
+        --fd: "Cormorant Garamond", serif;
+        --fb: "Jost", sans-serif;
+        --dark: #1e1a16;
+        --beige: #e8dfd0;
+      }
+
+      html, body { width: 100%; height: 100%; }
+
+      /* ─── HEADER ─── */
+      header {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        height: 68px;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 52px;
+        z-index: 200;
+        border-bottom: 0.5px solid rgba(0, 0, 0, 0.07);
+      }
+      .logo {
+        font-family: var(--fb);
+        font-weight: 200;
+        font-size: 18px;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: #1a1714;
+        text-decoration: none;
+      }
+      nav { display: flex; gap: 44px; }
+      nav a {
+        font-family: var(--fb);
+        font-weight: 300;
+        font-size: 10.5px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #aaa;
+        text-decoration: none;
+        transition: color 0.25s;
+      }
+      nav a:hover, nav a.on { color: #1a1714; }
+
+      /* ─── LAYOUT ─── */
+      .page {
+        padding-top: 68px;
+        min-height: 100vh;
+        display: flex;
+      }
+
+      /* ─── LEFT VISUAL ─── */
+      .vis {
+        position: fixed;
+        top: 68px; left: 0;
+        width: 44%;
+        height: calc(100% - 68px);
+        background: url('images/духи1.webp') center/contain no-repeat;
+        background-color: #f2f0ed;
+      }
+      .vis-foot {
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        padding: 52px;
+        background: linear-gradient(to top, rgba(10,8,6,0.72) 0%, transparent 100%);
+      }
+      .vis-tag {
+        font-family: var(--fb);
+        font-weight: 300;
+        font-size: 9px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: rgba(232, 223, 208, 0.5);
+        margin-bottom: 14px;
+      }
+      .vis-quote {
+        font-family: var(--fd);
+        font-weight: 300;
+        font-size: 30px;
+        line-height: 1.2;
+        color: var(--beige);
+      }
+      .vis-quote em { font-style: italic; }
+
+      /* ─── RIGHT FORM ─── */
+      .form-side {
+        margin-left: 44%;
+        width: 56%;
+        min-height: calc(100vh - 68px);
+        background: #faf9f7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 88px;
+      }
+      .form-wrap { width: 100%; max-width: 460px; }
+
+      .f-eyebrow {
+        font-family: var(--fb);
+        font-weight: 300;
+        font-size: 9px;
+        letter-spacing: 0.32em;
+        text-transform: uppercase;
+        color: rgba(30, 26, 22, 0.38);
+        margin-bottom: 14px;
+      }
+      .f-title {
+        font-family: var(--fd);
+        font-weight: 300;
+        font-size: 46px;
+        line-height: 1.05;
+        color: var(--dark);
+        margin-bottom: 8px;
+      }
+      .f-title em { font-style: italic; }
+      .f-sub {
+        font-family: var(--fb);
+        font-weight: 300;
+        font-size: 12.5px;
+        line-height: 1.75;
+        color: rgba(30, 26, 22, 0.42);
+        margin-bottom: 52px;
+      }
+
+      /* fields */
+      .field { margin-bottom: 30px; }
+      .field label {
+        display: block;
+        font-family: var(--fb);
+        font-weight: 300;
+        font-size: 9px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: rgba(30, 26, 22, 0.45);
+        margin-bottom: 9px;
+      }
+      .field input,
+      .field select,
+      .field textarea {
+        width: 100%;
+        background: none;
+        border: none;
+        border-bottom: 0.5px solid rgba(30, 26, 22, 0.18);
+        padding: 7px 0;
+        font-family: var(--fd);
+        font-size: 19px;
+        font-weight: 300;
+        color: var(--dark);
+        outline: none;
+        transition: border-color 0.3s;
+        -webkit-appearance: none;
+        border-radius: 0;
+      }
+      .field input:focus,
+      .field select:focus,
+      .field textarea:focus {
+        border-color: rgba(30, 26, 22, 0.55);
+      }
+      .field input::placeholder,
+      .field textarea::placeholder {
+        font-family: var(--fd);
+        font-size: 19px;
+        color: rgba(30, 26, 22, 0.18);
+      }
+      .field select {
+        cursor: pointer;
+        background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%231e1a16' stroke-opacity='.35' stroke-width='.8' fill='none'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 2px center;
+        padding-right: 18px;
+      }
+      .field select option { font-family: sans-serif; font-size: 15px; }
+      .field textarea { resize: none; height: 72px; line-height: 1.65; }
+
+      /* row of two fields */
+      .field-row { display: flex; gap: 32px; }
+      .field-row .field { flex: 1; }
+
+      /* submit */
+      .submit-row {
+        margin-top: 48px;
+        display: flex;
+        align-items: flex-start;
+        gap: 28px;
+      }
+      .btn-submit {
+        flex-shrink: 0;
+        padding: 13px 36px;
+        background: var(--dark);
+        color: var(--beige);
+        border: none;
+        font-family: var(--fb);
+        font-weight: 300;
+        font-size: 10.5px;
+        letter-spacing: 0.26em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      .btn-submit:hover { background: #38352f; }
+      .policy {
+        font-family: var(--fb);
+        font-weight: 300;
+        font-size: 9.5px;
+        line-height: 1.65;
+        color: rgba(30, 26, 22, 0.28);
+        padding-top: 4px;
+      }
+
+      /* ─── SUCCESS STATE ─── */
+      .success {
+        display: none;
+        text-align: center;
+        padding: 20px 0;
+      }
+      .success.show { display: block; }
+
+      .success-ring {
+        width: 56px; height: 56px;
+        border: 0.5px solid rgba(30, 26, 22, 0.18);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 30px;
+        font-family: var(--fd);
+        font-size: 24px;
+        color: rgba(30, 26, 22, 0.4);
+      }
+      .success-title {
+        font-family: var(--fd);
+        font-weight: 300;
+        font-size: 40px;
+        color: var(--dark);
+        margin-bottom: 14px;
+        line-height: 1.1;
+      }
+      .success-title em { font-style: italic; }
+      .success-text {
+        font-family: var(--fb);
+        font-weight: 300;
+        font-size: 13px;
+        line-height: 1.75;
+        color: rgba(30, 26, 22, 0.45);
+        margin-bottom: 40px;
+      }
+      .back-link {
+        display: inline-block;
+        font-family: var(--fb);
+        font-weight: 300;
+        font-size: 9.5px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: rgba(30, 26, 22, 0.45);
+        text-decoration: none;
+        border-bottom: 0.5px solid rgba(30, 26, 22, 0.18);
+        padding-bottom: 3px;
+        transition: color 0.25s, border-color 0.25s;
+      }
+      .back-link:hover { color: var(--dark); border-color: var(--dark); }
+
+      /* ─── RESPONSIVE ─── */
+      @media (max-width: 1199px) and (min-width: 768px) {
+        .form-side { padding: 60px 52px; }
+        .f-title { font-size: 38px; }
+      }
+
+      @media (max-width: 767px) {
+        header { height: 54px; padding: 0 20px; }
+        .page { padding-top: 54px; flex-direction: column; }
+        .vis { display: none; }
+        .form-side {
+          margin-left: 0;
+          width: 100%;
+          min-height: calc(100vh - 54px);
+          padding: 52px 24px 72px;
+        }
+        .form-wrap { max-width: 100%; }
+        .f-title { font-size: 34px; }
+        .f-sub { margin-bottom: 36px; }
+        .field-row { flex-direction: column; gap: 0; }
+        .submit-row { flex-direction: column; gap: 18px; }
+        .policy { max-width: 100%; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a class="logo" href="sublima-v3.html">Sublima</a>
+      <nav>
+        <a href="#">О нас</a>
+        <a href="sublima-v3.html">Коллекция</a>
+        <a href="#" class="on">Заказ</a>
+        <a href="#">Контакты</a>
+      </nav>
+    </header>
+
+    <div class="page">
+      <!-- Left: atmospheric photo -->
+      <div class="vis">
+        <div class="vis-foot">
+          <div class="vis-tag">Эксклюзивная парфюмерия · 2024</div>
+          <div class="vis-quote">Аромат, созданный<br><em>только для вас</em></div>
+        </div>
+      </div>
+
+      <!-- Right: form -->
+      <div class="form-side">
+        <div class="form-wrap">
+
+          <!-- Form block -->
+          <div id="formBlock">
+            <div class="f-eyebrow">Коллекция · 2024</div>
+            <div class="f-title">Заказать <em>консультацию</em></div>
+            <div class="f-sub">
+              Оставьте заявку — наш консультант<br>свяжется с вами в течение 24 часов
+            </div>
+
+            <form id="orderForm" novalidate>
+              <div class="field-row">
+                <div class="field">
+                  <label>Ваше имя *</label>
+                  <input type="text" placeholder="Александр" required />
+                </div>
+                <div class="field">
+                  <label>Телефон *</label>
+                  <input type="tel" placeholder="+7 (___) ___-__-__" required />
+                </div>
+              </div>
+
+              <div class="field">
+                <label>Email</label>
+                <input type="email" placeholder="your@email.com" />
+              </div>
+
+              <div class="field">
+                <label>Интересующий аромат</label>
+                <select>
+                  <option value="">— Выбрать аромат —</option>
+                  <option>№ 01 · Noir d'Ambre — Восточный древесный</option>
+                  <option>№ 02 · Blanche Rose — Цветочный шипровый</option>
+                  <option>№ 03 · Forêt Verte — Зелёный фужер</option>
+                  <option>№ 04 · Soleil d'Or — Пудровый амбровый</option>
+                  <option>№ 05 · Fumée Noire — Кожаный смолистый</option>
+                  <option>№ 06 · Mer Bleue — Акватический морской</option>
+                  <option>№ 07 · Épice Rouge — Пряный цветочный</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>Пожелания</label>
+                <textarea placeholder="Расскажите о предпочтениях, поводе или вопросах…"></textarea>
+              </div>
+
+              <div class="submit-row">
+                <button class="btn-submit" type="submit">Отправить заявку</button>
+                <div class="policy">
+                  Нажимая кнопку, вы соглашаетесь<br>с политикой конфиденциальности
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Success block -->
+          <div class="success" id="successBlock">
+            <div class="success-ring">✓</div>
+            <div class="success-title">Заявка <em>принята</em></div>
+            <div class="success-text">
+              Спасибо! Наш консультант свяжется<br>с вами в течение 24 часов.<br>Проверьте почту — мы пришлём подтверждение.
+            </div>
+            <a class="back-link" href="sublima-v3.html">← Вернуться к коллекции</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Pre-select aroma from URL param (?aroma=N)
+      const aroma = new URLSearchParams(window.location.search).get('aroma');
+      if (aroma) {
+        const sel = document.querySelector('select');
+        const idx = parseInt(aroma, 10);
+        if (idx >= 1 && idx <= sel.options.length - 1) {
+          sel.selectedIndex = idx;
+        }
+      }
+
+      document.getElementById('orderForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        document.getElementById('formBlock').style.opacity = '0';
+        document.getElementById('formBlock').style.transition = 'opacity 0.4s';
+        setTimeout(function () {
+          document.getElementById('formBlock').style.display = 'none';
+          document.getElementById('successBlock').classList.add('show');
+        }, 400);
+      });
+    </script>
+  </body>
+</html>

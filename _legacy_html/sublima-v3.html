@@ -1,0 +1,1425 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SUBLIMA — Коллекция</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --beige: #d8cfbf;
+        --gray1: #7a7268;
+        --gray2: #5c5650;
+        --dark1: #38352f;
+        --dark2: #26231e;
+        --white: #ffffff;
+        --fd: "Cormorant Garamond", serif;
+        --fb: "Jost", sans-serif;
+        --dur: 0.88s;
+        --ease: cubic-bezier(0.77, 0, 0.18, 1);
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #1a1714;
+      }
+
+      /* HEADER */
+      header {
+        position: fixed;
+        z-index: 200;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 68px;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 52px;
+        border-bottom: 0.5px solid rgba(0, 0, 0, 0.07);
+      }
+      .logo {
+        font-family: var(--fb);
+        font-weight: 200;
+        font-size: 18px;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: #1a1714;
+        text-decoration: none;
+      }
+      nav {
+        display: flex;
+        gap: 44px;
+      }
+      nav a {
+        font-family: var(--fb);
+        font-weight: 300;
+        font-size: 10.5px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #aaa;
+        text-decoration: none;
+        transition: color 0.25s;
+      }
+      nav a:hover,
+      nav a.on {
+        color: #1a1714;
+      }
+
+      /* SCENE */
+      .scene {
+        position: fixed;
+        top: 68px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transition: background var(--dur) var(--ease);
+      }
+      .scene.sc-0 {
+        background: #630000;
+      } /* Noir d'Ambre */
+      .scene.sc-1 {
+        background: #b86e00;
+      } /* Blanche Rose */
+      .scene.sc-2 {
+        background: #3f2b86;
+      } /* Forêt Verte */
+      .scene.sc-3 {
+        background: #ffbf5f;
+      } /* Soleil d'Or */
+      .scene.sc-4 {
+        background: #e88589;
+      } /* Fumée Noire */
+      .scene.sc-5 {
+        background: #c6ba14;
+      } /* Mer Bleue */
+      .scene.sc-6 {
+        background: #000000;
+      } /* Épice Rouge */
+
+      /* LEFT PHOTOS */
+      .photos {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 1;
+        background: content-box;
+      }
+      .ph {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transform: scale(1.06);
+        transition:
+          opacity var(--dur) var(--ease),
+          transform calc(var(--dur) * 1.3) var(--ease);
+      }
+      .ph.on {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .slide {
+        position: absolute;
+        inset: 0;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0;
+        transition: opacity 0.75s ease;
+      }
+      .slide.on {
+        opacity: 1;
+      }
+
+      .ph-arr {
+        position: fixed;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: rgba(30, 26, 22, 0.6);
+        font-size: 44px;
+        font-family: var(--fd);
+        font-weight: 300;
+        cursor: pointer;
+        padding: 24px 22px;
+        opacity: 0;
+        transition: opacity 0.35s;
+        line-height: 1;
+        user-select: none;
+        z-index: 150;
+      }
+      .ph-arr.arr-show {
+        opacity: 1;
+      }
+      .ph-arr:hover {
+        color: rgba(30, 26, 22, 1);
+      }
+
+      /* RIGHT PANELS — the key olluco mechanic */
+      .panels {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 55%;
+        height: 100%;
+        z-index: 2;
+      }
+
+      .panel {
+        position: absolute;
+        inset: 0;
+        transition: clip-path var(--dur) var(--ease);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 60px 80px 60px 88px;
+        overflow: hidden;
+      }
+
+      /* Active: full panel with diagonal left edge */
+      .panel.s-active {
+        clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);
+        z-index: 10;
+      }
+      /* Next panels peek as triangles from bottom-right */
+      .panel.s-b1 {
+        clip-path: polygon(100% 60%, 100% 100%, 50% 100%);
+        z-index: 9;
+      }
+      .panel.s-b2 {
+        clip-path: polygon(100% 76%, 100% 100%, 65% 100%);
+        z-index: 8;
+      }
+      .panel.s-b3 {
+        clip-path: polygon(100% 87%, 100% 100%, 76% 100%);
+        z-index: 7;
+      }
+      /* Prev panels peek as triangles from top-right */
+      .panel.s-a1 {
+        clip-path: polygon(100% 0%, 100% 40%, 50% 0%);
+        z-index: 9;
+      }
+      .panel.s-a2 {
+        clip-path: polygon(100% 0%, 100% 24%, 65% 0%);
+        z-index: 8;
+      }
+      .panel.s-a3 {
+        clip-path: polygon(100% 0%, 100% 13%, 76% 0%);
+        z-index: 7;
+      }
+      /* Far away: invisible point */
+      .panel.s-far {
+        clip-path: polygon(100% 100%, 100% 100%, 100% 100%);
+        z-index: 5;
+      }
+
+      /* Panel background — atmospheric photo */
+      .panel {
+        /* background-color: #0a0806; */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      .panel::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to right,
+          rgba(10, 8, 6, 0.88) 0%,
+          rgba(10, 8, 6, 0.60) 45%,
+          rgba(10, 8, 6, 0.15) 100%
+        );
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      /* Triangle labels (visible on slivers) */
+      .tlabel {
+        position: absolute;
+        font-family: var(--fb);
+        font-weight: 200;
+        font-size: 9px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        opacity: 0;
+        transition: none;
+        pointer-events: none;
+      }
+      .tlabel {
+        color: rgba(232, 223, 208, 0.85);
+      }
+
+      .panel.s-b1 .tlabel {
+        opacity: 0.75;
+        bottom: 16px;
+        right: 32px;
+      }
+      .panel.s-b2 .tlabel {
+        opacity: 0.5;
+        bottom: 6px;
+        right: 16px;
+      }
+      .panel.s-a1 .tlabel {
+        opacity: 0.75;
+        top: 16px;
+        right: 32px;
+      }
+      .panel.s-a2 .tlabel {
+        opacity: 0.5;
+        top: 6px;
+        right: 16px;
+      }
+
+      /* Content — fades in when active */
+      .pcont {
+        position: relative;
+        z-index: 1;
+        transition:
+          opacity 0.45s var(--ease),
+          transform 0.5s var(--ease);
+      }
+      .panel:not(.s-active) .pcont {
+        opacity: 0;
+        transform: translateY(14px);
+        transition: none;
+      }
+      .panel.s-active .pcont {
+        opacity: 1;
+        transform: translateY(0);
+        transition-delay: 0.28s;
+      }
+
+      .panel {
+        align-items: center;
+      }
+      /* Typography */
+      .lbl {
+        font-family: var(--fb);
+        font-weight: 300;
+        font-size: 13px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        margin-bottom: 50px;
+        /* opacity: 0.4; */
+      }
+      .num {
+        letter-spacing: 0.2em;
+        margin-bottom: 6px;
+        opacity: 0.4;
+      }
+      .name {
+        font-family: var(--fd);
+        font-weight: 300;
+        font-size: 46px;
+        line-height: 1.05;
+        letter-spacing: 0.02em;
+        margin-bottom: 7px;
+      }
+      .name em {
+        font-style: italic;
+      }
+      .sub {
+        font-family: var(--fd);
+        font-style: italic;
+        font-size: 20px;
+        letter-spacing: 0.07em;
+        opacity: 0.55;
+        margin-bottom: 42px;
+      }
+      .nlbl {
+        font-family: var(--fb);
+        font-size: 16px;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        /* opacity: 0.36; */
+        margin-bottom: 10px;
+      }
+      .notes {
+        font-family: var(--fd);
+        font-size: 20px;
+        line-height: 1.95;
+        font-weight: 300;
+        margin-bottom: 38px;
+      }
+      .price {
+        font-family: var(--fd);
+        font-size: 24px;
+        font-weight: 300;
+        letter-spacing: 0.04em;
+      }
+      .price span {
+        font-family: var(--fb);
+        font-weight: 200;
+        font-size: 16px;
+        /* opacity: 0.4; */
+        margin-left: 3px;
+      }
+      .btn {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 11px 20px;
+        border: 0.5px solid currentColor;
+        text-decoration: none;
+        font-family: var(--fb);
+        font-weight: 300;
+        font-size: 11px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        background: transparent;
+        cursor: pointer;
+        transition:
+          background 0.3s,
+          color 0.3s;
+        width: fit-content;
+        border-radius: 10px;
+      }
+
+      /* Panel text — универсально светлый (фото всегда тёмное через overlay) */
+      .panel .lbl,
+      .panel .num,
+      .panel .name,
+      .panel .sub,
+      .panel .nlbl {
+        color: #e8dfd0;
+      }
+      .panel .notes {
+        color: rgba(232, 223, 208, 0.82);
+      }
+      .panel .price {
+        color: var(--white);
+      }
+      .panel .btn {
+        color: #e8dfd0;
+        border-color: rgba(232, 223, 208, 0.45);
+      }
+      .panel .btn:hover {
+        background: #e8dfd0;
+        color: #1e1a16;
+      }
+
+      /* SIDE NAV */
+      .snav {
+        position: fixed;
+        left: 26px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .sni {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        cursor: pointer;
+        padding: 4px 0;
+      }
+      .snd {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        border: 1px solid rgba(30, 26, 22, 0.4);
+        flex-shrink: 0;
+        transition:
+          background 0.3s,
+          border-color 0.3s,
+          transform 0.3s;
+      }
+      .sni.on .snd {
+        background: #ffffff;
+        border-color: #ffffff;
+        transform: scale(1.3);
+      }
+      .snn {
+        font-family: var(--fb);
+        font-weight: 600;
+        font-size: 9px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(30, 26, 22, 0.5);
+        white-space: nowrap;
+        transition:
+          color 0.3s,
+          opacity 0.3s;
+        opacity: 0;
+      }
+      .sni:hover .snn,
+      .sni.on .snn {
+        opacity: 1;
+        color: rgba(255, 255, 255, 0.9);
+      }
+      .snl {
+        width: 1px;
+        height: 15px;
+        background: rgba(30, 26, 22, 0.15);
+        margin-left: 3px;
+      }
+
+      /* RESPONSIVE */
+
+      /* Large desktop 1600px+ */
+      @media (min-width: 1600px) {
+        .photos {
+          width: 50%;
+          background: content-box;
+        }
+        .panels {
+          width: 55%;
+        }
+      }
+
+      /* Tablet 768–1199px */
+      @media (max-width: 1199px) and (min-width: 768px) {
+        .photos {
+          width: 40%;
+        }
+        .panels {
+          width: 66%;
+        }
+        .panel {
+          padding: 48px 52px 48px 68px;
+        }
+        .panel.s-active {
+          clip-path: polygon(13% 0%, 100% 0%, 100% 100%, 0% 100%);
+        }
+        .name {
+          font-size: 38px;
+        }
+        .lbl {
+          margin-bottom: 32px;
+        }
+        .sub {
+          margin-bottom: 28px;
+        }
+        .notes {
+          font-size: 15px;
+        }
+      }
+
+      /* Mobile <768px */
+      @media (max-width: 767px) {
+        header {
+          height: 54px;
+          padding: 0 20px;
+        }
+        .scene {
+          top: 54px;
+        }
+
+        .photos {
+          width: 100%;
+          background: #1a1714;
+        }
+        .slide {
+          background-size: cover;
+          background-position: center;
+        }
+
+        .panels {
+          width: 100%;
+          top: 0;
+          height: 100%;
+        }
+
+        .panel {
+          clip-path: none !important;
+          background-image: none !important;
+          padding: 0 24px 60px;
+          justify-content: flex-end;
+          transition: opacity 0.55s ease;
+        }
+        .panel::before {
+          background: linear-gradient(
+            to top,
+            rgba(10, 8, 6, 0.92) 0%,
+            rgba(10, 8, 6, 0.65) 40%,
+            rgba(10, 8, 6, 0.12) 68%,
+            transparent 100%
+          );
+        }
+        .panel:not(.s-active) {
+          opacity: 0;
+          pointer-events: none;
+          z-index: 5;
+        }
+        .panel.s-active {
+          opacity: 1;
+          z-index: 10;
+        }
+        .tlabel {
+          display: none;
+        }
+
+        .lbl {
+          margin-bottom: 16px;
+        }
+        .name {
+          font-size: 32px;
+        }
+        .sub {
+          margin-bottom: 16px;
+        }
+        .notes {
+          font-size: 14px;
+          line-height: 1.65;
+          margin-bottom: 16px;
+        }
+
+        .snav {
+          flex-direction: row;
+          align-items: center;
+          left: 50%;
+          top: auto;
+          bottom: 18px;
+          transform: translateX(-50%);
+          z-index: 200;
+          gap: 0;
+        }
+        .snn {
+          display: none;
+        }
+        .snl {
+          width: 12px;
+          height: 1px;
+          margin: 0;
+          background: rgba(255, 255, 255, 0.2);
+        }
+        .snd {
+          border-color: rgba(255, 255, 255, 0.5);
+        }
+        .sni.on .snd {
+          background: #fff;
+          border-color: #fff;
+        }
+
+        .ph-arr {
+          color: rgba(255, 255, 255, 0.8);
+          font-size: 36px;
+          padding: 16px 14px;
+          opacity: 0.65;
+        }
+        .ph-arr.arr-show { opacity: 0.65; }
+        .ph-arr:hover {
+          color: #fff;
+          opacity: 1;
+        }
+
+        .shint {
+          display: none;
+        }
+      }
+
+      /* SCROLL HINT */
+      .shint {
+        position: fixed;
+        bottom: 26px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 7px;
+        color: rgba(255, 255, 255, 0.3);
+        font-family: var(--fb);
+        font-size: 8.5px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        transition: opacity 0.6s;
+      }
+      .shline {
+        width: 1px;
+        height: 26px;
+        background: rgba(255, 255, 255, 0.2);
+        animation: shp 2.2s ease-in-out infinite;
+      }
+      @keyframes shp {
+        0%,
+        100% {
+          transform: scaleY(0.7);
+          opacity: 0.3;
+        }
+        50% {
+          transform: scaleY(1.2);
+          opacity: 0.8;
+        }
+      }
+
+      /* ============================================================
+         DETAIL OVERLAY — Apple Scroll Story
+      ============================================================ */
+      .detail-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 400;
+        background: #12100e;
+        overflow-y: auto;
+        overflow-x: hidden;
+        scroll-snap-type: y mandatory;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.7s cubic-bezier(0.77, 0, 0.18, 1);
+      }
+      .detail-overlay.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      /* Close button */
+      .d-close {
+        position: fixed;
+        top: 22px;
+        right: 32px;
+        z-index: 500;
+        background: none;
+        border: 0.5px solid rgba(232, 223, 208, 0.22);
+        color: rgba(232, 223, 208, 0.65);
+        font-family: var(--fb);
+        font-weight: 200;
+        font-size: 10px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        padding: 11px 22px;
+        cursor: pointer;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s, color 0.25s, border-color 0.25s;
+      }
+      .d-close.open { opacity: 1; pointer-events: all; }
+      .d-close:hover { color: #e8dfd0; border-color: rgba(232, 223, 208, 0.55); }
+
+      /* Side nav dots */
+      .d-nav-dots {
+        position: fixed;
+        right: 26px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 450;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s;
+      }
+      .d-nav-dots.open { opacity: 1; pointer-events: all; }
+      .d-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        border: 1px solid rgba(232, 223, 208, 0.3);
+        cursor: pointer;
+        transition: background 0.3s, border-color 0.3s, transform 0.3s;
+      }
+      .d-dot:hover { border-color: rgba(232, 223, 208, 0.7); }
+      .d-dot.on { background: rgba(232, 223, 208, 0.85); border-color: rgba(232, 223, 208, 0.85); transform: scale(1.5); }
+      .d-dot.is-dark { border-color: rgba(26, 23, 20, 0.28); }
+      .d-dot.is-dark:hover { border-color: rgba(26, 23, 20, 0.6); }
+      .d-dot.is-dark.on { background: #1a1714; border-color: #1a1714; }
+
+      /* Base section */
+      .ds {
+        min-height: 100vh;
+        scroll-snap-align: start;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      /* ── HERO ── */
+      .ds-hero { background-size: cover; background-position: center; }
+      .ds-hero-ovl {
+        position: absolute; inset: 0;
+        background: linear-gradient(to bottom,
+          rgba(18,16,14,.2) 0%,
+          rgba(18,16,14,.55) 55%,
+          rgba(18,16,14,.92) 100%);
+      }
+      .ds-hero-body { position: relative; z-index: 1; text-align: center; padding: 0 6vw; }
+      .d-eyebrow {
+        font-family: var(--fb); font-weight: 200; font-size: 9.5px;
+        letter-spacing: .44em; text-transform: uppercase;
+        color: rgba(232,223,208,.4); display: block; margin-bottom: 30px;
+      }
+      .d-big-title {
+        font-family: var(--fd); font-weight: 300;
+        font-size: clamp(56px, 9vw, 132px); line-height: .92;
+        color: #e8dfd0; letter-spacing: -.01em; margin-bottom: 24px;
+      }
+      .d-big-title em { font-style: italic; }
+      .d-tagline {
+        font-family: var(--fb); font-weight: 200; font-size: 10px;
+        letter-spacing: .32em; text-transform: uppercase;
+        color: rgba(232,223,208,.38);
+      }
+      .d-scroll-cue {
+        position: absolute; bottom: 34px; left: 50%;
+        transform: translateX(-50%); z-index: 1;
+      }
+      .d-scroll-ln {
+        width: 1px; height: 52px;
+        background: rgba(232,223,208,.25);
+        animation: dln 2.1s ease-in-out infinite;
+      }
+      @keyframes dln {
+        0%,100%{transform:scaleY(.55);opacity:.22}
+        50%{transform:scaleY(1.2) translateY(6px);opacity:.72}
+      }
+
+      /* ── NOTES ── */
+      .ds-notes {
+        background: #0f0d0b;
+        flex-direction: column; align-items: flex-start;
+        padding: 0 min(12vw, 160px);
+      }
+      .ds-notes-img {
+        position: absolute; right: 0; top: 0; bottom: 0; width: 36%;
+        background-size: cover; background-position: center;
+      }
+      .ds-notes-img::before {
+        content: ''; position: absolute; inset: 0;
+        background: linear-gradient(to right, #0f0d0b 0%, transparent 100%);
+      }
+      .d-sec-label {
+        font-family: var(--fb); font-weight: 200; font-size: 9px;
+        letter-spacing: .42em; text-transform: uppercase;
+        color: rgba(232,223,208,.28); margin-bottom: 58px;
+      }
+      .d-note-row {
+        display: flex; align-items: baseline;
+        gap: 22px; margin-bottom: 14px;
+      }
+      .d-note-tick {
+        width: 24px; height: 1px;
+        background: rgba(232,223,208,.18);
+        flex-shrink: 0; margin-bottom: 5px;
+      }
+      .d-note-name {
+        font-family: var(--fd); font-weight: 300;
+        font-size: clamp(28px, 4.8vw, 62px);
+        color: #e8dfd0; line-height: 1.15; letter-spacing: .01em;
+      }
+
+      /* ── HEART ── */
+      .ds-heart {
+        background-size: cover; background-position: center;
+        flex-direction: column; align-items: flex-start;
+        padding: 0 min(12vw, 160px);
+      }
+      .ds-heart-ovl {
+        position: absolute; inset: 0;
+        background: linear-gradient(115deg,
+          rgba(12,10,8,.95) 0%,
+          rgba(12,10,8,.72) 50%,
+          rgba(12,10,8,.18) 100%);
+      }
+      .ds-heart-body { position: relative; z-index: 1; }
+
+      /* ── BASE ── */
+      .ds-base {
+        background: #070504;
+        flex-direction: column; align-items: flex-start;
+        padding: 0 min(12vw, 160px);
+      }
+      .d-base-ghost {
+        position: absolute; right: min(8vw, 120px); top: 50%;
+        transform: translateY(-50%);
+        font-family: var(--fd); font-style: italic; font-weight: 300;
+        font-size: clamp(90px, 16vw, 240px);
+        color: rgba(232,223,208,.03);
+        line-height: 1; white-space: nowrap;
+        pointer-events: none; user-select: none;
+      }
+
+      /* ── STORY ── */
+      .ds-story {
+        background: #0c0a08;
+        flex-direction: column; text-align: center;
+        padding: 0 min(15vw, 220px);
+      }
+      .d-story-pre {
+        font-family: var(--fb); font-weight: 200; font-size: 9px;
+        letter-spacing: .44em; text-transform: uppercase;
+        color: rgba(232,223,208,.28); margin-bottom: 56px;
+      }
+      .d-story-text {
+        font-family: var(--fd); font-style: italic; font-weight: 300;
+        font-size: clamp(17px, 2.5vw, 33px); line-height: 1.78;
+        color: rgba(232,223,208,.86); max-width: 880px;
+      }
+      .d-story-sig {
+        font-family: var(--fb); font-weight: 200; font-size: 9px;
+        letter-spacing: .3em; text-transform: uppercase;
+        color: rgba(232,223,208,.22); margin-top: 52px;
+      }
+
+      /* ── CTA ── */
+      .ds-cta { background: #f4f1ec; align-items: stretch; }
+      .d-cta-left {
+        width: 44%; flex-shrink: 0;
+        background: #eae7e1;
+        position: relative; overflow: hidden;
+      }
+      .d-cta-photo {
+        position: absolute; inset: 0;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      .d-cta-right {
+        flex: 1; display: flex; flex-direction: column;
+        justify-content: center;
+        padding: 80px min(7vw, 100px);
+      }
+      .d-cta-eyebrow {
+        font-family: var(--fb); font-weight: 200; font-size: 9px;
+        letter-spacing: .4em; text-transform: uppercase;
+        color: rgba(26,23,20,.32); margin-bottom: 22px;
+      }
+      .d-cta-title {
+        font-family: var(--fd); font-weight: 300;
+        font-size: clamp(34px, 4.2vw, 58px); line-height: 1.05;
+        color: #1a1714; margin-bottom: 8px;
+      }
+      .d-cta-title em { font-style: italic; }
+      .d-cta-sub {
+        font-family: var(--fd); font-style: italic; font-size: 16px;
+        color: rgba(26,23,20,.42); margin-bottom: 46px;
+      }
+      .d-cta-price {
+        font-family: var(--fd); font-size: 28px; font-weight: 300;
+        color: #1a1714; margin-bottom: 8px;
+      }
+      .d-cta-price span {
+        font-family: var(--fb); font-weight: 200; font-size: 13px;
+        color: rgba(26,23,20,.36); margin-left: 6px;
+      }
+      .d-cta-stock {
+        display: flex; align-items: center; gap: 10px;
+        font-family: var(--fb); font-weight: 300; font-size: 9.5px;
+        letter-spacing: .18em; text-transform: uppercase;
+        color: rgba(26,23,20,.38); margin-bottom: 44px;
+      }
+      .d-stock-dot {
+        width: 5px; height: 5px; border-radius: 50%;
+        background: #b5943c; flex-shrink: 0;
+      }
+      .d-btn-col { display: flex; flex-direction: column; gap: 12px; max-width: 360px; }
+      .d-btn-main {
+        padding: 16px 28px;
+        background: #1a1714; color: #e8dfd0;
+        border: 0.5px solid #1a1714;
+        font-family: var(--fb); font-weight: 300; font-size: 10.5px;
+        letter-spacing: .22em; text-transform: uppercase;
+        cursor: pointer; transition: background .3s;
+      }
+      .d-btn-main:hover { background: #2d2922; }
+      .d-btn-sec {
+        padding: 14px 28px;
+        background: transparent; color: rgba(26,23,20,.62);
+        border: 0.5px solid rgba(26,23,20,.22);
+        font-family: var(--fb); font-weight: 300; font-size: 10.5px;
+        letter-spacing: .22em; text-transform: uppercase;
+        cursor: pointer; transition: border-color .3s, color .3s;
+      }
+      .d-btn-sec:hover { border-color: rgba(26,23,20,.65); color: #1a1714; }
+
+      /* ── ANIMATIONS ── */
+      .da {
+        transition:
+          opacity .92s cubic-bezier(.16,1,.3,1),
+          transform .92s cubic-bezier(.16,1,.3,1);
+      }
+      .da-up   { opacity: 0; transform: translateY(62px); }
+      .da-left { opacity: 0; transform: translateX(-46px); }
+      .da-scale{ opacity: 0; transform: scale(.93); }
+      .da.in   { opacity: 1 !important; transform: none !important; }
+
+      /* Mobile */
+      @media (max-width: 767px) {
+        .d-big-title { font-size: clamp(42px, 13vw, 70px); }
+        .ds-notes, .ds-heart, .ds-base, .ds-story { padding: 0 7vw; }
+        .ds-notes-img { display: none; }
+        .d-cta-left { display: none; }
+        .d-cta-right { padding: 60px 7vw; }
+        .d-nav-dots { display: none; }
+        .d-close { right: 16px; top: 14px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a class="logo" href="#">Sublima</a>
+      <nav>
+        <a href="#">О нас</a>
+        <a href="#" class="on">Коллекция</a>
+        <a href="zakaz.html">Заказ</a>
+        <a href="#">Контакты</a>
+      </nav>
+    </header>
+
+    <div class="scene">
+      <div class="photos">
+        <div class="ph on">
+          <div class="slide on" style="background-image: url('images/духи1.webp')"></div>
+          <div class="slide" style="background-image: url('images/духи3.webp')"></div>
+          <div class="slide" style="background-image: url('images/духи4.webp')"></div>
+        </div>
+        <div class="ph">
+          <div class="slide on" style="background-image: url('images/духи5.webp')"></div>
+          <div class="slide" style="background-image: url('images/духи7.webp')"></div>
+          <div class="slide" style="background-image: url('images/духи5.webp')"></div>
+        </div>
+        <div class="ph">
+          <div class="slide on" style="background-image: url('images/духи9.webp')"></div>
+          <div class="slide" style="background-image: url('images/духи11.webp')"></div>
+          <div class="slide" style="background-image: url('images/духи12.webp')"></div>
+        </div>
+        <div class="ph">
+          <div class="slide on" style="background-image: url('images/духи13.webp')"></div>
+          <div class="slide" style="background-image: url('images/духи15.webp')"></div>
+          <div class="slide" style="background-image: url('images/духи16.webp')"></div>
+        </div>
+        <div class="ph">
+          <div class="slide on" style="background-image: url('images/духи17.webp')"></div>
+          <div class="slide" style="background-image: url('images/духи19.webp')"></div>
+          <div class="slide" style="background-image: url('images/духи20.webp')"></div>
+        </div>
+        <div class="ph">
+          <div class="slide on" style="background-image: url('images/духи21.webp')"></div>
+          <div class="slide" style="background-image: url('images/духи23.webp')"></div>
+          <div class="slide" style="background-image: url('images/духи24.webp')"></div>
+        </div>
+        <div class="ph">
+          <div class="slide on" style="background-image: url('images/духи25.webp')"></div>
+          <div class="slide" style="background-image: url('images/духи27.webp')"></div>
+          <div class="slide" style="background-image: url('images/духи28.webp')"></div>
+        </div>
+      </div>
+
+      <button class="ph-arr ph-arr-l">&#8249;</button>
+      <button class="ph-arr ph-arr-r">&#8250;</button>
+
+      <div class="panels" id="panels">
+        <div class="panel p0 s-active" data-i="0" style="background-image: url('images/духи2.webp')">
+          <span class="tlabel">Noir d'Ambre</span>
+          <div class="pcont">
+            <div class="lbl">Коллекция · 2024</div>
+            <div class="num">№ 01</div>
+            <div class="name">Noir <em>d'Ambre</em></div>
+            <div class="sub">Восточный древесный</div>
+            <div class="nlbl">Пирамида аромата</div>
+            <div class="notes">
+              Шафран. Бергамот.<br />Уд. Сандал. Амбра.<br />Мускус. Бобы тонка
+            </div>
+            <div class="price">18 500 <span>₽ / 50 мл</span></div>
+            <a class="btn" href="single-product.html?id=1">Изучить аромат</a>
+          </div>
+        </div>
+
+        <div class="panel p1" data-i="1" style="background-image: url('images/духи6.webp')">
+          <span class="tlabel">Blanche Rose</span>
+          <div class="pcont">
+            <div class="lbl">Коллекция · 2024</div>
+            <div class="num">№ 02</div>
+            <div class="name">Blanche <em>Rose</em></div>
+            <div class="sub">Цветочный шипровый</div>
+            <div class="nlbl">Пирамида аромата</div>
+            <div class="notes">
+              Роза центифолия. Альдегиды.<br />Жасмин. Ирис.<br />Дубовый мох.
+              Ветивер
+            </div>
+            <div class="price">21 000 <span>₽ / 50 мл</span></div>
+            <a class="btn" href="zakaz.html?aroma=2">Заказать консультацию</a>
+          </div>
+        </div>
+
+        <div class="panel p2" data-i="2" style="background-image: url('images/духи10.webp')">
+          <span class="tlabel">Forêt Verte</span>
+          <div class="pcont">
+            <div class="lbl">Коллекция · 2024</div>
+            <div class="num">№ 03</div>
+            <div class="name"><em>Forêt</em> Verte</div>
+            <div class="sub">Зелёный фужер</div>
+            <div class="nlbl">Пирамида аромата</div>
+            <div class="notes">
+              Фиалковый лист. Гальбанум.<br />Герань. Кедр.<br />Мох. Кастореум
+            </div>
+            <div class="price">16 800 <span>₽ / 50 мл</span></div>
+            <a class="btn" href="zakaz.html?aroma=3">Заказать консультацию</a>
+          </div>
+        </div>
+
+        <div class="panel p3" data-i="3" style="background-image: url('images/духи14.webp')">
+          <span class="tlabel">Soleil d'Or</span>
+          <div class="pcont">
+            <div class="lbl">Коллекция · 2024</div>
+            <div class="num">№ 04</div>
+            <div class="name">Soleil <em>d'Or</em></div>
+            <div class="sub">Пудровый амбровый</div>
+            <div class="nlbl">Пирамида аромата</div>
+            <div class="notes">
+              Гелиотроп. Мимоза.<br />Бобы тонка. Ваниль.<br />Белый мускус.
+              Амбретта
+            </div>
+            <div class="price">19 200 <span>₽ / 50 мл</span></div>
+            <a class="btn" href="zakaz.html?aroma=4">Заказать консультацию</a>
+          </div>
+        </div>
+
+        <div class="panel p4" data-i="4" style="background-image: url('images/духи18.webp')">
+          <span class="tlabel">Fumée Noire</span>
+          <div class="pcont">
+            <div class="lbl">Коллекция · 2024</div>
+            <div class="num">№ 05</div>
+            <div class="name">Fumée <em>Noire</em></div>
+            <div class="sub">Кожаный смолистый</div>
+            <div class="nlbl">Пирамида аромата</div>
+            <div class="notes">
+              Дым. Берёза.<br />Лабданум. Кожа.<br />Смолы. Пачули
+            </div>
+            <div class="price">24 500 <span>₽ / 50 мл</span></div>
+            <a class="btn" href="zakaz.html?aroma=5">Заказать консультацию</a>
+          </div>
+        </div>
+
+        <div class="panel p5" data-i="5" style="background-image: url('images/духи22.webp')">
+          <span class="tlabel">Mer Bleue</span>
+          <div class="pcont">
+            <div class="lbl">Коллекция · 2024</div>
+            <div class="num">№ 06</div>
+            <div class="name">Mer <em>Bleue</em></div>
+            <div class="sub">Акватический морской</div>
+            <div class="nlbl">Пирамида аромата</div>
+            <div class="notes">
+              Морской бриз. Цитрусы.<br />Морские водоросли. Амбра.<br />Кедр.
+              Мускус
+            </div>
+            <div class="price">15 900 <span>₽ / 50 мл</span></div>
+            <a class="btn" href="zakaz.html?aroma=6">Заказать консультацию</a>
+          </div>
+        </div>
+
+        <div class="panel p6" data-i="6" style="background-image: url('images/духи26.webp')">
+          <span class="tlabel">Épice Rouge</span>
+          <div class="pcont">
+            <div class="lbl">Коллекция · 2024</div>
+            <div class="num">№ 07</div>
+            <div class="name">Épice <em>Rouge</em></div>
+            <div class="sub">Пряный цветочный</div>
+            <div class="nlbl">Пирамида аромата</div>
+            <div class="notes">
+              Гвоздика. Корица.<br />Роза. Герань.<br />Бензоин. Мирра
+            </div>
+            <div class="price">20 400 <span>₽ / 50 мл</span></div>
+            <a class="btn" href="zakaz.html?aroma=7">Заказать консультацию</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="snav" id="snav">
+      <div class="sni on" data-t="0">
+        <div class="snd"></div>
+        <span class="snn">Noir d'Ambre</span>
+      </div>
+      <div class="snl"></div>
+      <div class="sni" data-t="1">
+        <div class="snd"></div>
+        <span class="snn">Blanche Rose</span>
+      </div>
+      <div class="snl"></div>
+      <div class="sni" data-t="2">
+        <div class="snd"></div>
+        <span class="snn">Forêt Verte</span>
+      </div>
+      <div class="snl"></div>
+      <div class="sni" data-t="3">
+        <div class="snd"></div>
+        <span class="snn">Soleil d'Or</span>
+      </div>
+      <div class="snl"></div>
+      <div class="sni" data-t="4">
+        <div class="snd"></div>
+        <span class="snn">Fumée Noire</span>
+      </div>
+      <div class="snl"></div>
+      <div class="sni" data-t="5">
+        <div class="snd"></div>
+        <span class="snn">Mer Bleue</span>
+      </div>
+      <div class="snl"></div>
+      <div class="sni" data-t="6">
+        <div class="snd"></div>
+        <span class="snn">Épice Rouge</span>
+      </div>
+    </nav>
+
+    <div class="shint" id="shint">
+      <div class="shline"></div>
+    </div>
+
+    <script>
+      const N = 7;
+      const panels = [...document.querySelectorAll(".panel")];
+      const photos = [...document.querySelectorAll(".ph")];
+      const dots = [...document.querySelectorAll(".sni")];
+      const shint = document.getElementById("shint");
+      const arrL = document.querySelector(".ph-arr-l");
+      const arrR = document.querySelector(".ph-arr-r");
+
+      let cur = 0,
+        busy = false;
+      const curSlides = new Array(N).fill(0);
+
+      const ST = [
+        "s-active",
+        "s-b1",
+        "s-b2",
+        "s-b3",
+        "s-a1",
+        "s-a2",
+        "s-a3",
+        "s-far",
+      ];
+      function stateFor(delta) {
+        if (delta === 0) return "s-active";
+        if (delta === 1) return "s-b1";
+        if (delta === 2) return "s-b2";
+        if (delta >= 3) return "s-b3";
+        if (delta === -1) return "s-a1";
+        if (delta === -2) return "s-a2";
+        if (delta <= -3) return "s-a3";
+        return "s-far";
+      }
+
+      const scene = document.querySelector(".scene");
+
+      function render() {
+        panels.forEach((p, i) => {
+          ST.forEach((s) => p.classList.remove(s));
+          p.classList.add(stateFor(i - cur));
+        });
+        photos.forEach((p, i) => p.classList.toggle("on", i === cur));
+        dots.forEach((d, i) => d.classList.toggle("on", i === cur));
+        scene.className = "scene sc-" + cur;
+        shint.style.opacity = cur === 0 ? "1" : "0";
+      }
+
+      function changeSlide(dir) {
+        const slides = photos[cur].querySelectorAll(".slide");
+        slides[curSlides[cur]].classList.remove("on");
+        curSlides[cur] = (curSlides[cur] + dir + 3) % 3;
+        slides[curSlides[cur]].classList.add("on");
+      }
+
+      function goTo(i) {
+        if (i === cur || busy || i < 0 || i >= N) return;
+        busy = true;
+        // Reset the ARRIVING section to slide 0
+        const nextSlides = photos[i].querySelectorAll(".slide");
+        nextSlides[curSlides[i]].classList.remove("on");
+        nextSlides[0].classList.add("on");
+        curSlides[i] = 0;
+        cur = i;
+        render();
+        setTimeout(() => { busy = false; positionArrows(); }, 920);
+      }
+
+      let lw = 0;
+      window.addEventListener(
+        "wheel",
+        (e) => {
+          const t = Date.now();
+          if (t - lw < 750) return;
+          lw = t;
+          e.deltaY > 0 ? goTo((cur + 1) % N) : goTo((cur - 1 + N) % N);
+        },
+        { passive: true },
+      );
+
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowDown" || e.key === "ArrowRight") goTo((cur + 1) % N);
+        if (e.key === "ArrowUp" || e.key === "ArrowLeft") goTo((cur - 1 + N) % N);
+      });
+
+      let ty = 0;
+      window.addEventListener(
+        "touchstart",
+        (e) => (ty = e.touches[0].clientY),
+        { passive: true },
+      );
+      window.addEventListener(
+        "touchend",
+        (e) => {
+          const d = ty - e.changedTouches[0].clientY;
+          if (Math.abs(d) > 45) d > 0 ? goTo((cur + 1) % N) : goTo((cur - 1 + N) % N);
+        },
+        { passive: true },
+      );
+
+      dots.forEach((d) =>
+        d.addEventListener("click", () => goTo(+d.dataset.t)),
+      );
+
+      panels.forEach((p) =>
+        p.addEventListener("click", () => {
+          const i = +p.dataset.i;
+          if (i !== cur) goTo(i);
+        }),
+      );
+
+      arrL.addEventListener("click", () => changeSlide(-1));
+      arrR.addEventListener("click", () => changeSlide(1));
+
+      const photosEl = document.querySelector(".photos");
+
+      function placeArrows(left, right, midY) {
+        arrL.style.left  = (left + 20) + "px";
+        arrL.style.top   = midY + "px";
+        arrR.style.left  = "auto";
+        arrR.style.right = (window.innerWidth - right + 20) + "px";
+        arrR.style.top   = midY + "px";
+      }
+
+      function positionArrows() {
+        const cr = photosEl.getBoundingClientRect();
+        const cw = cr.width, ch = cr.height;
+        const midY = cr.top + ch / 2;
+
+        // получаем URL активного слайда
+        const activeSlide = photosEl.querySelector(".ph.on .slide.on");
+        const bgStyle = activeSlide
+          ? window.getComputedStyle(activeSlide).backgroundImage : "";
+        const match = bgStyle.match(/url\(["']?([^"')]+)["']?\)/);
+
+        if (!match) { placeArrows(cr.left, cr.right, midY); return; }
+
+        const img = new Image();
+        img.onload = function () {
+          const cr2 = photosEl.getBoundingClientRect();
+          const cw2 = cr2.width, ch2 = cr2.height;
+          const ir = img.naturalWidth / img.naturalHeight;
+          const containerRatio = cw2 / ch2;
+          let imgL, imgR;
+          if (ir < containerRatio) {
+            // портретное фото: вписывается по высоте → горизонтальные поля
+            const rw = ch2 * ir;
+            imgL = cr2.left + (cw2 - rw) / 2;
+            imgR = imgL + rw;
+          } else {
+            // пейзажное: вписывается по ширине → поля только вертикальные
+            imgL = cr2.left;
+            imgR = cr2.right;
+          }
+          placeArrows(imgL, imgR, cr2.top + ch2 / 2);
+        };
+        img.onerror = function () { placeArrows(cr.left, cr.right, midY); };
+        img.src = match[1];
+      }
+
+      positionArrows();
+      window.addEventListener("resize", positionArrows);
+
+      document.addEventListener("mousemove", (e) => {
+        const r = photosEl.getBoundingClientRect();
+        const inside = e.clientX >= r.left && e.clientX <= r.right &&
+                       e.clientY >= r.top  && e.clientY <= r.bottom;
+        arrL.classList.toggle("arr-show", inside);
+        arrR.classList.toggle("arr-show", inside);
+      });
+
+      render();
+
+      /* ============================================================
+         DETAIL — navigate to separate pages
+      ============================================================ */
+      const PRODUCT_SLUGS = [
+        'noir-dambre','blanche-rose','foret-verte','soleil-dor',
+        'fumee-noire','mer-bleue','epice-rouge'
+      ];
+      document.querySelectorAll('.panel .btn').forEach(btn => {
+        btn.textContent = 'Изучить аромат';
+        btn.addEventListener('click', e => {
+          e.preventDefault();
+          e.stopPropagation();
+          window.location.href = PRODUCT_SLUGS[+btn.closest('.panel').dataset.i] + '.html';
+        });
+      });
+
+      const DETAIL_DATA_UNUSED = [
+        {
+          namePlain:"Noir", nameItalic:"d'Ambre", sub:"Восточный древесный",
+          price:"18 500", volume:"50 мл", stock:3,
+          notes:{ top:["Шафран","Бергамот"], heart:["Уд","Сандал"], base:["Амбра","Мускус","Бобы тонка"] },
+          story:"Аромат, рождённый из тишины восточной ночи. Шафран открывается как первое воспоминание — острый, пряный, живой. Уд несёт характер: тяжёлый, благородный, безмолвный. Амбра остаётся как след на коже — тёплый, неуловимый, ваш.",
+          imgHero:"images/духи2.webp", imgHeart:"images/духи3.webp", imgCta:"images/духи1.webp"
+        },
+        {
+          namePlain:"Blanche", nameItalic:"Rose", sub:"Цветочный шипровый",
+          price:"21 000", volume:"50 мл", stock:5,
+          notes:{ top:["Роза центифолия","Альдегиды"], heart:["Жасмин","Ирис"], base:["Дубовый мох","Ветивер"] },
+          story:"Белая роза на рассвете. Альдегиды поднимают лепестки вверх — свежо, почти невесомо. Жасмин и ирис вплетаются в сердце, дубовый мох держит всё вместе — как земля держит сад.",
+          imgHero:"images/духи6.webp", imgHeart:"images/духи7.webp", imgCta:"images/духи5.webp"
+        },
+        {
+          namePlain:"Forêt", nameItalic:"Verte", sub:"Зелёный фужер",
+          price:"16 800", volume:"50 мл", stock:7,
+          notes:{ top:["Фиалковый лист","Гальбанум"], heart:["Герань","Кедр"], base:["Мох","Кастореум"] },
+          story:"Лес после дождя. Фиалковый лист и гальбанум — первый вдох утра. Герань и кедр — сердцевина, твёрдая и живая. Мох — земля под ногами, кастореум — присутствие зверя в чаще.",
+          imgHero:"images/духи10.webp", imgHeart:"images/духи11.webp", imgCta:"images/духи9.webp"
+        },
+        {
+          namePlain:"Soleil", nameItalic:"d'Or", sub:"Пудровый амбровый",
+          price:"19 200", volume:"50 мл", stock:4,
+          notes:{ top:["Гелиотроп","Мимоза"], heart:["Бобы тонка","Ваниль"], base:["Белый мускус","Амбретта"] },
+          story:"Золотой полдень без теней. Гелиотроп и мимоза — лёгкость, почти детская. Ваниль и тонка — тепло, которое не покидает. Мускус и амбретта — нежный финал, как солнце за горизонтом.",
+          imgHero:"images/духи14.webp", imgHeart:"images/духи15.webp", imgCta:"images/духи13.webp"
+        },
+        {
+          namePlain:"Fumée", nameItalic:"Noire", sub:"Кожаный смолистый",
+          price:"24 500", volume:"50 мл", stock:2,
+          notes:{ top:["Дым","Берёза"], heart:["Лабданум","Кожа"], base:["Смолы","Пачули"] },
+          story:"Дым от угасающего огня. Берёза — резкая, почти агрессивная. Лабданум и кожа — плотные, тёплые, как чужое пальто. Смолы и пачули осядут на коже до самого утра.",
+          imgHero:"images/духи18.webp", imgHeart:"images/духи19.webp", imgCta:"images/духи17.webp"
+        },
+        {
+          namePlain:"Mer", nameItalic:"Bleue", sub:"Акватический морской",
+          price:"15 900", volume:"50 мл", stock:8,
+          notes:{ top:["Морской бриз","Цитрусы"], heart:["Водоросли","Амбра"], base:["Кедр","Мускус"] },
+          story:"Берег в час прилива. Бриз и цитрусы — мгновение до — острые и живые. Водоросли и амбра — сам океан, тяжёлый и бесконечный. Кедр и мускус — линия горизонта.",
+          imgHero:"images/духи22.webp", imgHeart:"images/духи23.webp", imgCta:"images/духи21.webp"
+        },
+        {
+          namePlain:"Épice", nameItalic:"Rouge", sub:"Пряный цветочный",
+          price:"20 400", volume:"50 мл", stock:3,
+          notes:{ top:["Гвоздика","Корица"], heart:["Роза","Герань"], base:["Бензоин","Мирра"] },
+          story:"Базар специй на закате. Гвоздика и корица — пряные, дерзкие, почти грубые. Роза и герань смягчают — красота сквозь шум. Бензоин и мирра — тихий, почти священный финал.",
+        }]
+          </script>
+  </body>
+</html>

@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SUBLIMA — Noir d'Ambre — Восточный древесный аромат</title>
+  <meta name="description" content="Noir d'Ambre — восточный древесный. Шафран, уд, амбра. 18 500 ₽ — 50 мл. Коллекция Sublima 2024."/>
+  <meta property="og:title" content="SUBLIMA — Noir d'Ambre"/>
+  <meta property="og:description" content="Аромат, рождённый из тишины восточной ночи."/>
+  <meta property="og:image" content="images/духи2.webp"/>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Noir d'Ambre","description":"Восточный древесный аромат. Шафран, уд, амбра.","image":"images/духи2.webp","brand":{"@type":"Brand","name":"Sublima"},"offers":{"@type":"Offer","price":"18500","priceCurrency":"RUB","availability":"https://schema.org/InStock"}}</script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--fd:"Cormorant Garamond",serif;--fb:"Jost",sans-serif}
+    html,body{width:100%;height:100%;overflow:hidden;background:#12100e}
+    header{position:fixed;z-index:200;top:0;left:0;right:0;height:68px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 52px;border-bottom:.5px solid rgba(0,0,0,.07)}
+    .logo{font-family:var(--fb);font-weight:200;font-size:18px;letter-spacing:.4em;text-transform:uppercase;color:#1a1714;text-decoration:none}
+    nav{display:flex;gap:44px}
+    nav a{font-family:var(--fb);font-weight:300;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:#aaa;text-decoration:none;transition:color .25s}
+    nav a:hover,nav a.on{color:#1a1714}
+    .d-back{border-radius: 10px;position:fixed;top:75px;right:32px;z-index:500;background:none;border:.5px solid rgba(0, 0, 0, 0.85);color:rgba(0, 0, 0, 0.65);font-family:var(--fb);font-weight:300;font-size:10px;letter-spacing:.24em;text-transform:uppercase;padding:11px 22px;text-decoration:none;transition:color .25s,border-color .25s}
+    .d-back:hover{color:#ffffff;border-color:rgba(53, 51, 48, .85)}
+    .d-nav-dots{position:fixed;right:26px;top:50%;transform:translateY(-50%);z-index:450;display:flex;flex-direction:column;gap:9px}
+    .d-dot{width:5px;height:5px;border-radius:50%;border:1px solid rgba(232,223,208,.3);cursor:pointer;transition:background .3s,border-color .3s,transform .3s}
+    .d-dot:hover{border-color:rgba(232,223,208,.7)}
+    .d-dot.on{background:rgba(232,223,208,.85);border-color:rgba(232,223,208,.85);transform:scale(1.5)}
+    .d-dot.is-dark{border-color:rgba(26,23,20,.28)}
+    .d-dot.is-dark.on{background:#1a1714;border-color:#1a1714}
+    .d-main{position:fixed;top:68px;left:0;right:0;bottom:0;overflow-y:scroll;scroll-snap-type:y mandatory;overscroll-behavior:none}
+    .ds{min-height:calc(100vh - 68px);scroll-snap-align:start;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .ds-hero{background-size:cover;background-position:center}
+    .ds-hero-ovl{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(18,16,14,.2) 0%,rgba(18,16,14,.55) 55%,rgba(18,16,14,.92) 100%)}
+    .ds-hero-body{position:relative;z-index:1;text-align:center;padding:0 6vw}
+    .d-eyebrow{font-family:var(--fb);font-size:13px;letter-spacing:.44em;text-transform:uppercase;color:rgba(232,223,208,.4);display:block;margin-bottom:30px}
+    .d-big-title{font-family:var(--fd);font-weight:300;font-size:clamp(56px,9vw,132px);line-height:.92;color:#e8dfd0;letter-spacing:-.01em;margin-bottom:24px}
+    .d-big-title em{font-style:italic}
+    .d-tagline{font-family:var(--fb);font-weight:200;font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:rgba(232,223,208,.38)}
+    .d-scroll-cue{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);z-index:1}
+    .d-scroll-ln{width:1px;height:52px;background:rgba(232,223,208,.25);animation:dln 2.1s ease-in-out infinite}
+    @keyframes dln{0%,100%{transform:scaleY(.55);opacity:.22}50%{transform:scaleY(1.2) translateY(6px);opacity:.72}}
+    .ds-notes{background:#0f0d0b;flex-direction:column;align-items:flex-start;padding:0 min(12vw,160px)}
+    .ds-notes-img{position:absolute;right:0;top:0;bottom:0;width:36%;background-size:cover;background-position:center}
+    .ds-notes-img::before{content:'';position:absolute;inset:0;background:linear-gradient(to right,#0f0d0b 0%,transparent 100%)}
+    .d-sec-label{font-family:var(--fb);font-size:13px;letter-spacing:.42em;text-transform:uppercase;color:rgba(232,223,208,.28);margin-bottom:58px}
+    .d-note-row{display:flex;align-items:baseline;gap:22px;margin-bottom:14px}
+    .d-note-tick{width:24px;height:1px;background:rgba(232,223,208,.18);flex-shrink:0;margin-bottom:5px}
+    .d-note-name{font-family:var(--fd);font-weight:300;font-size:clamp(28px,4.8vw,62px);color:#e8dfd0;line-height:1.15;letter-spacing:.01em}
+    .ds-heart{background-size:cover;background-position:center;flex-direction:column;align-items:flex-start;padding:0 min(12vw,160px)}
+    .ds-heart-ovl{position:absolute;inset:0;background:linear-gradient(115deg,rgba(12,10,8,.95) 0%,rgba(12,10,8,.72) 50%,rgba(12,10,8,.18) 100%)}
+    .ds-heart-body{position:relative;z-index:1}
+    .ds-base{background:#070504;flex-direction:column;align-items:flex-start;padding:0 min(12vw,160px)}
+    .d-base-ghost{position:absolute;right:min(8vw,120px);top:50%;transform:translateY(-50%);font-family:var(--fd);font-style:italic;font-weight:300;font-size:clamp(90px,16vw,240px);color:rgba(232,223,208);line-height:1;white-space:nowrap;pointer-events:none;user-select:none}
+    .ds-story{background:#0c0a08;flex-direction:column;text-align:center;padding:0 min(15vw,220px)}
+    .d-story-pre{font-family:var(--fb);font-size:13px;letter-spacing:.44em;text-transform:uppercase;color:rgba(232,223,208,.28);margin-bottom:56px}
+    .d-story-text{font-family:var(--fd);font-style:italic;font-weight:300;font-size:clamp(17px,2.5vw,33px);line-height:1.78;color:rgba(232,223,208,.86);max-width:880px}
+    .d-story-sig{font-family:var(--fb);font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:rgba(232,223,208,.22);margin-top:52px}
+    /* ── CTA: каталожный layout с диагональным срезом ── */
+    .ds-cta{background:#630000;display:block!important;position:relative;padding:0}
+    .cta-photos{position:absolute;top:0;left:0;bottom:0;width:50%;background:#630000;overflow:hidden;z-index:1}
+    .cta-slide{position:absolute;inset:0;background-size:contain;background-position:center;background-repeat:no-repeat;opacity:0;transition:opacity .75s cubic-bezier(.77,0,.18,1)}
+    .cta-slide.on{opacity:1}
+    .cta-arr{position:absolute;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(30,26,22,.6);font-size:44px;font-family:var(--fd);font-weight:300;cursor:pointer;padding:24px 20px;line-height:1;user-select:none;transition:color .25s,opacity .35s;z-index:5;opacity:0}
+    .cta-arr.arr-show{opacity:1}
+    .cta-arr:hover{color:rgba(30,26,22,1)}
+    .cta-arr-l{left:0}
+    .cta-arr-r{right:0}
+    .cta-panel{position:absolute;top:0;right:0;bottom:0;width:55%;background-size:cover;background-position:center;clip-path:polygon(10% 0%,100% 0%,100% 100%,0% 100%);z-index:2;display:flex;flex-direction:column;justify-content:center;align-items:center}
+    .cta-panel-ovl{position:absolute;inset:0;background:linear-gradient(to right,rgba(10,8,6,.88) 0%,rgba(10,8,6,.60) 45%,rgba(10,8,6,.15) 100%)}
+    .cta-panel-body{position:relative;z-index:1;padding:60px 40px;width:100%;max-width:560px}
+    .cta-p-eyebrow{font-family:var(--fb);font-weight:300;font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:#e8dfd0;margin-bottom:50px}
+    .cta-p-num{font-family:var(--fb);font-weight:300;font-size:13px;letter-spacing:.2em;color:rgba(232,223,208,.4);margin-bottom:6px}
+    .cta-p-title{font-family:var(--fd);font-weight:300;font-size:46px;line-height:1.05;color:#e8dfd0;letter-spacing:.02em;margin-bottom:7px}
+    .cta-p-title em{font-style:italic}
+    .cta-p-sub{font-family:var(--fd);font-style:italic;font-size:20px;letter-spacing:.07em;color:rgba(232,223,208,.55);margin-bottom:42px}
+    .cta-p-pyramid{font-family:var(--fb);font-size:16px;letter-spacing:.28em;text-transform:uppercase;color:#e8dfd0;margin-bottom:10px}
+    .cta-p-notes{margin-bottom:38px}
+    .cta-p-note-line{font-family:var(--fd);font-weight:300;font-size:20px;color:rgba(232,223,208,.82);line-height:1.95;letter-spacing:.02em}
+    .cta-p-price{font-family:var(--fd);font-size:24px;font-weight:300;color:#fff;letter-spacing:.04em}
+    .cta-p-price span{font-family:var(--fb);font-weight:200;font-size:16px;color:rgba(232,223,208,.4);margin-left:3px}
+    .cta-p-stock{display:flex;align-items:center;gap:9px;font-family:var(--fb);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(232,223,208);margin-top:8px;margin-bottom:0}
+    .cta-p-sdot{width:4px;height:4px;border-radius:50%;background:#b5943c;flex-shrink:0}
+    .cta-p-btn{border-radius: 10px;display:inline-block;margin-top:30px;padding:11px 20px;background:transparent;border:.5px solid rgba(232,223,208,.45);color:#e8dfd0;font-family:var(--fb);font-weight:300;font-size:11px;letter-spacing:.24em;text-transform:uppercase;cursor:pointer;transition:background .3s,color .3s}
+    .cta-p-btn:hover{background:#e8dfd0;color:#1e1a16}
+    .cta-p-btn2{margin-left:14px;background:none;border:none;color:rgba(232,223,208);font-family:var(--fb);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;text-underline-offset:4px;text-decoration-color:rgba(232,223,208,.15);transition:color .25s;vertical-align:middle}
+    .cta-p-btn2:hover{color:rgba(232,223,208,.6)}
+    .da{transition:opacity .92s cubic-bezier(.16,1,.3,1),transform .92s cubic-bezier(.16,1,.3,1)}
+    .da-up{opacity:0;transform:translateY(62px)}
+    .da-left{opacity:0;transform:translateX(-46px)}
+    .da-scale{opacity:0;transform:scale(.93)}
+    .da.in{opacity:1!important;transform:none!important}
+    /* ── CART BADGE ── */
+    .cart-badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#1e1a16;color:#fff;font-size:13.5px;font-family:var(--fb);margin-left:5px;vertical-align:middle;opacity:0;transition:opacity .25s;line-height:1}
+    .cart-badge.show{opacity:1}
+    /* ── TOAST ── */
+    .c-toast{position:fixed;bottom:36px;right:36px;z-index:900;background:#fff;display:flex;align-items:center;gap:16px;padding:16px 22px;box-shadow:0 6px 40px rgba(0,0,0,.13);opacity:0;transform:translateY(10px);transition:opacity .35s,transform .35s;pointer-events:none}
+    .c-toast.show{opacity:1;transform:translateY(0)}
+    .ct-ring{width:34px;height:34px;border:.5px solid rgba(30,26,22,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(30,26,22,.5);font-size:15px;flex-shrink:0}
+    .ct-body .ct-top{font-family:var(--fb);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#1e1a16}
+    .ct-body .ct-bot{font-family:var(--fd);font-size:14px;color:rgba(30,26,22,.45);margin-top:2px}
+    /* ── CONSULTATION MODAL ── */
+    .m-ov{position:fixed;inset:0;background:rgba(10,8,6,.72);z-index:800;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s}
+    .m-ov.open{opacity:1;pointer-events:all}
+    .m-box{background:#fff;width:min(460px,92vw);padding:48px 44px;position:relative;transform:translateY(14px);transition:transform .38s}
+    .m-ov.open .m-box{transform:translateY(0)}
+    .m-x{position:absolute;top:18px;right:22px;background:none;border:none;font-size:22px;color:rgba(30,26,22,.3);cursor:pointer;line-height:1;transition:color .2s}
+    .m-x:hover{color:#1e1a16}
+    .m-title{font-family:var(--fd);font-weight:300;font-size:34px;color:#1e1a16;margin-bottom:4px}
+    .m-title em{font-style:italic}
+    .m-sub{font-family:var(--fb);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(30,26,22,.32);margin-bottom:32px}
+    .mf{margin-bottom:22px}
+    .mf label{display:block;font-family:var(--fb);font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(30,26,22,.42);margin-bottom:8px}
+    .mf input{width:100%;background:none;border:none;border-bottom:.5px solid rgba(30,26,22,.18);padding:6px 0;font-family:var(--fd);font-size:18px;color:#1e1a16;outline:none;transition:border-color .25s;border-radius:0}
+    .mf input:focus{border-color:rgba(30,26,22,.5)}
+    .mf input::placeholder{color:rgba(30,26,22,.18);font-family:var(--fd);font-size:18px}
+    .m-send{border-radius: 10px;margin-top:30px;padding:12px 0;width:100%;background:#1e1a16;color:#e8dfd0;border:none;font-family:var(--fb);font-size:10px;letter-spacing:.26em;text-transform:uppercase;cursor:pointer;transition:background .3s}
+    .m-send:hover{background:#38352f}
+    .m-ok{display:none;text-align:center;padding:16px 0}
+    .m-ok.show{display:block}
+    .m-ok-icon{font-family:var(--fd);font-size:32px;color:rgba(30,26,22,.3);margin-bottom:18px}
+    .m-ok-title{font-family:var(--fd);font-size:30px;color:#1e1a16;margin-bottom:8px}
+    .m-ok-title em{font-style:italic}
+    .m-ok-text{font-family:var(--fb);font-size:11.5px;color:rgba(30,26,22,.42);line-height:1.75}
+    @media(max-width:767px){
+      header{padding:0 20px}
+      .d-big-title{font-size:clamp(42px,13vw,70px)}
+      .ds-notes,.ds-heart,.ds-base,.ds-story{padding:0 7vw}
+      .ds-notes-img{display:none}
+      .cta-photos{display:none}
+      .cta-panel{width:100%;clip-path:none;position:relative;top:auto;right:auto;bottom:auto;min-height:100vh}
+      .cta-panel-body{padding:60px 7vw}
+      .cta-p-btn2{display:none}
+      .d-nav-dots{display:none}
+      .d-back{right:16px;top:14px;font-size:9px;padding:9px 16px}
+      nav{display:none}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="logo" href="sublima-v3.html">Sublima</a>
+    <nav>
+      <a href="#">О нас</a>
+      <a class="on" href="sublima-v3.html">Коллекция</a>
+      <a href="zakaz.html">Заказ<span class="cart-badge" id="cartBadge"></span></a>
+      <a href="#">Контакты</a>
+    </nav>
+  </header>
+
+  <a class="d-back" href="sublima-v3.html">← Коллекция</a>
+  <div class="d-nav-dots" id="navDots"></div>
+
+  <main class="d-main" id="main">
+
+    <section class="ds ds-hero" style="background-image:url('images/духи2.webp')">
+      <div class="ds-hero-ovl"></div>
+      <div class="ds-hero-body">
+        <span class="d-eyebrow da da-up" style="transition-delay:.05s">Коллекция · 2024 · № 01</span>
+        <h1 class="d-big-title da da-up" style="transition-delay:.18s">Noir <em>d'Ambre</em></h1>
+        <p class="d-tagline da da-up" style="transition-delay:.30s">Восточный древесный</p>
+      </div>
+      <div class="d-scroll-cue"><div class="d-scroll-ln"></div></div>
+    </section>
+
+    <section class="ds ds-notes">
+      <div class="ds-notes-img" style="background-image:url('images/духи1.webp')"></div>
+      <div style="position:relative;z-index:1">
+        <div class="d-sec-label da da-left" style="transition-delay:.04s">01 — Голова аромата</div>
+        <div class="d-note-row da da-up" style="transition-delay:.15s"><span class="d-note-tick"></span><span class="d-note-name">Шафран</span></div>
+        <div class="d-note-row da da-up" style="transition-delay:.28s"><span class="d-note-tick"></span><span class="d-note-name">Бергамот</span></div>
+      </div>
+    </section>
+
+    <section class="ds ds-heart" style="background-image:url('images/духи3.webp')">
+      <div class="ds-heart-ovl"></div>
+      <div class="ds-heart-body">
+        <div class="d-sec-label da da-left" style="transition-delay:.04s">02 — Сердце аромата</div>
+        <div class="d-note-row da da-up" style="transition-delay:.15s"><span class="d-note-tick"></span><span class="d-note-name">Уд</span></div>
+        <div class="d-note-row da da-up" style="transition-delay:.28s"><span class="d-note-tick"></span><span class="d-note-name">Сандал</span></div>
+      </div>
+    </section>
+
+    <section class="ds ds-base">
+      <div class="d-base-ghost">d'Ambre</div>
+      <div style="position:relative;z-index:1">
+        <div class="d-sec-label da da-left" style="transition-delay:.04s">03 — Основа аромата</div>
+        <div class="d-note-row da da-up" style="transition-delay:.15s"><span class="d-note-tick"></span><span class="d-note-name">Амбра</span></div>
+        <div class="d-note-row da da-up" style="transition-delay:.28s"><span class="d-note-tick"></span><span class="d-note-name">Мускус</span></div>
+        <div class="d-note-row da da-up" style="transition-delay:.41s"><span class="d-note-tick"></span><span class="d-note-name">Бобы тонка</span></div>
+      </div>
+    </section>
+
+    <section class="ds ds-story">
+      <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center">
+        <div class="d-story-pre da da-up" style="transition-delay:.05s">История аромата</div>
+        <p class="d-story-text da da-up" style="transition-delay:.2s">"Аромат, рождённый из тишины восточной ночи. Шафран открывается как первое воспоминание — острый, пряный, живой. Уд несёт характер: тяжёлый, благородный, безмолвный. Амбра остаётся как след на коже — тёплый, неуловимый, ваш."</p>
+        <div class="d-story-sig da da-up" style="transition-delay:.38s">— Sublima, Коллекция 2024</div>
+      </div>
+    </section>
+
+    <section class="ds ds-cta">
+      <!-- LEFT: photo slider -->
+      <div class="cta-photos">
+        <div class="cta-slide on" style="background-image:url('images/духи1.webp')"></div>
+        <div class="cta-slide" style="background-image:url('images/духи3.webp')"></div>
+        <div class="cta-slide" style="background-image:url('images/духи4.webp')"></div>
+        <button class="cta-arr cta-arr-l" id="ctaArrL">‹</button>
+        <button class="cta-arr cta-arr-r" id="ctaArrR">›</button>
+      </div>
+      <!-- RIGHT: dark photo + info overlay -->
+      <div class="cta-panel" style="background-image:url('images/духи2.webp')">
+        <div class="cta-panel-ovl"></div>
+        <div class="cta-panel-body">
+          <div class="cta-p-eyebrow da da-up" style="transition-delay:.08s">Коллекция · 2024</div>
+          <div class="cta-p-num da da-up" style="transition-delay:.14s">№ 01</div>
+          <div class="cta-p-title da da-up" style="transition-delay:.22s">Noir <em>d'Ambre</em></div>
+          <div class="cta-p-sub da da-up" style="transition-delay:.28s">Восточный древесный</div>
+          <div class="cta-p-pyramid da da-up" style="transition-delay:.34s">Пирамида аромата</div>
+          <div class="cta-p-notes da da-up" style="transition-delay:.40s">
+            <div class="cta-p-note-line">Шафран · Бергамот</div>
+            <div class="cta-p-note-line">Уд · Сандал</div>
+            <div class="cta-p-note-line">Амбра · Мускус · Бобы тонка</div>
+          </div>
+          <div class="cta-p-price da da-up" style="transition-delay:.46s">18 500 <span>₽ / 50 мл</span></div>
+          <div class="cta-p-stock da da-up" style="transition-delay:.50s">
+            <span class="cta-p-sdot"></span>В наличии: 3 флакона
+          </div>
+          <div class="da da-up" style="transition-delay:.54s">
+            <button class="cta-p-btn">Заказать консультацию</button>
+            <!-- <button class="cta-p-btn2">Запросить пробник</button> -->
+            <button class="cta-p-btn2">Добавить в корзину</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Cart toast -->
+  <div class="c-toast" id="cToast">
+    <div class="ct-ring">✓</div>
+    <div class="ct-body">
+      <div class="ct-top">Добавлено в корзину</div>
+      <div class="ct-bot">Noir d'Ambre · 50 мл</div>
+    </div>
+  </div>
+
+  <!-- Consultation modal -->
+  <div class="m-ov" id="mOv">
+    <div class="m-box">
+      <button class="m-x" id="mClose">×</button>
+      <div id="mForm">
+        <div class="m-title">Заказать <em>консультацию</em></div>
+        <div class="m-sub">Noir d'Ambre · 18 500 ₽</div>
+        <form id="consultForm" novalidate>
+          <div class="mf"><label>Имя *</label><input type="text" placeholder="Александр" required></div>
+          <div class="mf"><label>Телефон *</label><input type="tel" placeholder="+7 (___) ___-__-__" required></div>
+          <div class="mf"><label>Email</label><input type="email" placeholder="your@email.com"></div>
+          <button class="m-send" type="submit">Отправить заявку</button>
+        </form>
+      </div>
+      <div class="m-ok" id="mOk">
+        <div class="m-ok-icon">✓</div>
+        <div class="m-ok-title">Заявка <em>принята</em></div>
+        <div class="m-ok-text">Мы свяжемся с вами<br>в течение 24 часов</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const main=document.getElementById('main'),dots=document.getElementById('navDots');
+    const secs=[...document.querySelectorAll('.ds')];
+    dots.innerHTML=secs.map((_,i)=>`<div class="d-dot"></div>`).join('');
+    const dotEls=[...dots.querySelectorAll('.d-dot')];
+    dotEls.forEach((d,i)=>d.addEventListener('click',()=>secs[i].scrollIntoView({behavior:'smooth'})));
+    const animObs=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');animObs.unobserve(e.target)}})},{root:main,threshold:.1});
+    document.querySelectorAll('.da').forEach(el=>animObs.observe(el));
+    const secObs=new IntersectionObserver(e=>{e.forEach(e=>{if(!e.isIntersecting)return;const i=secs.indexOf(e.target);dotEls.forEach((d,j)=>{d.classList.toggle('on',j===i);d.classList.remove('is-dark')})})},{root:main,threshold:.5});
+    secs.forEach(s=>secObs.observe(s));
+    // CTA slider
+    const ctaSlides=[...document.querySelectorAll('.cta-slide')];
+    const ctaPhotosEl=document.querySelector('.cta-photos');
+    const ctaArrL=document.getElementById('ctaArrL');
+    const ctaArrR=document.getElementById('ctaArrR');
+    let ctaCur=0;
+
+    function ctaPlaceArrows(imgL,imgR){
+      ctaArrL.style.left=imgL+'px';
+      ctaArrL.style.right='auto';
+      ctaArrR.style.right=(ctaPhotosEl.offsetWidth-imgR)+'px';
+      ctaArrR.style.left='auto';
+    }
+    function ctaPositionArrows(){
+      const cw=ctaPhotosEl.offsetWidth,ch=ctaPhotosEl.offsetHeight;
+      const active=ctaPhotosEl.querySelector('.cta-slide.on');
+      const bg=active?window.getComputedStyle(active).backgroundImage:'';
+      const m=bg.match(/url\(["']?([^"')]+)["']?\)/);
+      if(!m){ctaPlaceArrows(0,cw);return;}
+      const img=new Image();
+      img.onload=function(){
+        const ir=img.naturalWidth/img.naturalHeight,cr=cw/ch;
+        let imgL,imgR;
+        if(ir<cr){const rw=ch*ir;imgL=(cw-rw)/2;imgR=imgL+rw;}
+        else{imgL=0;imgR=cw;}
+        ctaPlaceArrows(imgL,imgR);
+      };
+      img.onerror=function(){ctaPlaceArrows(0,cw);};
+      img.src=m[1];
+    }
+    ctaPositionArrows();
+    window.addEventListener('resize',ctaPositionArrows);
+
+    document.addEventListener('mousemove',function(e){
+      const r=ctaPhotosEl.getBoundingClientRect();
+      const inside=e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom;
+      ctaArrL.classList.toggle('arr-show',inside);
+      ctaArrR.classList.toggle('arr-show',inside);
+    });
+
+    function ctaGo(n){
+      ctaSlides[ctaCur].classList.remove('on');
+      ctaCur=(n+ctaSlides.length)%ctaSlides.length;
+      ctaSlides[ctaCur].classList.add('on');
+      ctaPositionArrows();
+    }
+    ctaArrL.addEventListener('click',()=>ctaGo(ctaCur-1));
+    ctaArrR.addEventListener('click',()=>ctaGo(ctaCur+1));
+
+    /* ── CART ── */
+    const PRODUCT = { id:'noir-dambre', name:"Noir d'Ambre", price:18500, volume:'50 мл', image:'images/духи1.webp' };
+    const getCart = () => { try{ return JSON.parse(localStorage.getItem('sublima_cart')||'[]'); }catch{ return []; } };
+    const saveCart = c => localStorage.setItem('sublima_cart', JSON.stringify(c));
+    const cartQty = () => getCart().reduce((s,i)=>s+i.qty,0);
+
+    function updateBadge(){
+      const n = cartQty();
+      const b = document.getElementById('cartBadge');
+      b.textContent = n;
+      b.classList.toggle('show', n > 0);
+    }
+    updateBadge();
+
+    const btnAdd = document.querySelector('.cta-p-btn2');
+    const toast  = document.getElementById('cToast');
+    let toastTimer;
+
+    btnAdd.addEventListener('click', function(){
+      const cart = getCart();
+      const ex = cart.find(i=>i.id===PRODUCT.id);
+      ex ? ex.qty++ : cart.push({...PRODUCT, qty:1});
+      saveCart(cart);
+      updateBadge();
+
+      btnAdd.textContent = 'Добавлено ✓';
+      setTimeout(()=>{ btnAdd.textContent = 'Добавить в корзину'; }, 2500);
+
+      clearTimeout(toastTimer);
+      toast.classList.add('show');
+      toastTimer = setTimeout(()=>toast.classList.remove('show'), 3000);
+    });
+
+    /* ── CONSULTATION MODAL ── */
+    const mOv = document.getElementById('mOv');
+    const mClose = document.getElementById('mClose');
+    const mForm = document.getElementById('mForm');
+    const mOk   = document.getElementById('mOk');
+    const btnConsult = document.querySelector('.cta-p-btn');
+
+    btnConsult.addEventListener('click', ()=> mOv.classList.add('open'));
+    mClose.addEventListener('click', ()=> mOv.classList.remove('open'));
+    mOv.addEventListener('click', e=>{ if(e.target===mOv) mOv.classList.remove('open'); });
+
+    document.getElementById('consultForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      mForm.style.display = 'none';
+      mOk.classList.add('show');
+      setTimeout(()=>{
+        mOv.classList.remove('open');
+        setTimeout(()=>{ mForm.style.display=''; mOk.classList.remove('show'); this.reset(); }, 400);
+      }, 2800);
+    });
+  </script>
+</body>
+</html>

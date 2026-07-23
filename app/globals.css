@@ -1,0 +1,27 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --fd: var(--font-serif), serif;
+  --fb: var(--font-sans), sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  width: 100%;
+  background: #f7f5f1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

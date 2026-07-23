@@ -1,0 +1,75 @@
+.page {
+  padding-top: 68px;
+  min-height: 100vh;
+  background: #f7f5f1;
+}
+
+.intro {
+  padding: 120px min(9vw, 140px) 70px;
+}
+.eyebrow {
+  font-family: var(--fb);
+  font-weight: 300;
+  font-size: 10.5px;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: rgba(26, 23, 20, 0.36);
+  margin-bottom: 26px;
+}
+.title {
+  font-family: var(--fd);
+  font-weight: 300;
+  font-size: clamp(38px, 4.6vw, 64px);
+  color: #1a1714;
+  letter-spacing: -0.01em;
+}
+
+.list {
+  border-top: 0.5px solid rgba(26, 23, 20, 0.14);
+}
+.row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 42px min(9vw, 140px);
+  border-bottom: 0.5px solid rgba(26, 23, 20, 0.14);
+  text-decoration: none;
+  transition: background 0.25s;
+}
+.row:hover {
+  background: rgba(26, 23, 20, 0.03);
+}
+.rowLabel {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(17px, 1.7vw, 22px);
+  color: rgba(26, 23, 20, 0.58);
+  max-width: 480px;
+}
+.rowValue {
+  font-family: var(--fb);
+  font-weight: 300;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: #1a1714;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: color 0.25s;
+}
+.row:hover .rowValue {
+  color: rgba(26, 23, 20, 0.6);
+}
+
+@media (max-width: 900px) {
+  .intro {
+    padding: 88px 7vw 48px;
+  }
+  .row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 32px 7vw;
+  }
+}
