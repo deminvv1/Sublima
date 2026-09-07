@@ -654,4 +654,11 @@
     top: 70px;
     left: 16px;
   }
+  .cta-p-btn2 {
+    display: block;
+    /* matches .cta-p-btn's left padding so the text lines up with
+       "ЗАКАЗАТЬ КОНСУЛЬТАЦИЮ" above instead of sitting flush left */
+    margin-left: 20px;
+    margin-top: 18px;
+  }
 }

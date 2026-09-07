@@ -216,7 +216,15 @@ export default function CollectionScene({
             <div key={p.id} className={`${styles.ph} ${i === cur ? styles.on : ""}`}>
               {p.images.collection.map((src, si) => (
                 <div key={si} className={`${styles.slide} ${si === curSlides[i] ? styles.on : ""}`}>
-                  <Image src={src} alt="" fill sizes="50vw" className={styles.slideImg} />
+                  <Image
+                    src={src}
+                    alt=""
+                    fill
+                    sizes="50vw"
+                    className={styles.slideImg}
+                    priority={i === cur && si === 0}
+                    fetchPriority={i === cur ? "high" : "low"}
+                  />
                 </div>
               ))}
             </div>
@@ -256,7 +264,15 @@ export default function CollectionScene({
                   if (i !== cur) goTo(i);
                 }}
               >
-                <Image src={p.images.hero} alt="" fill sizes="55vw" className={styles.panelImg} />
+                <Image
+                  src={p.images.hero}
+                  alt=""
+                  fill
+                  sizes="55vw"
+                  className={styles.panelImg}
+                  priority={i === cur}
+                  fetchPriority={i === cur ? "high" : "low"}
+                />
                 <span className={styles.tlabel}>
                   {p.namePlain}{p.nameItalic}
                 </span>
