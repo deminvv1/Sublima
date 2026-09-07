@@ -411,15 +411,18 @@
 @media (max-width: 767px) {
   .page {
     top: 54px;
-    height: calc(100vh - 54px);
+    /* 100svh (small viewport height) guarantees this fits even when the
+       browser's address/toolbar chrome is showing — 100vh is measured
+       against the *largest* possible viewport and can push content like
+       the "ИЗУЧИТЬ АРОМАТ" button off-screen */
+    height: calc(100svh - 54px);
   }
+  /* the left "photos" rail (generic borrowed stock photos) is a desktop-only
+     element sitting side-by-side with the panels; on mobile the panels
+     already cover the full screen, so photos was rendering full-bleed
+     underneath them and flashing through during the panel crossfade */
   .photos {
-    width: 100%;
-    background: #1a1714;
-  }
-  .slide {
-    background-size: cover;
-    background-position: center;
+    display: none;
   }
   .panels {
     width: 100%;
@@ -427,6 +430,8 @@
     height: 100%;
   }
   .panel {
+    /* same letterbox-bleed fix as .ph, for the right-side hero panel */
+    background: #14120f;
     clip-path: none !important;
     background-image: none !important;
     padding: 0 24px 60px;
