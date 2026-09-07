@@ -34,7 +34,6 @@ export default function FilosofiyaPage({
           <p className={styles.statement}>{dict.filosofiya.statement}</p>
           <div className={styles.line} />
           <p className={styles.detail}>{dict.filosofiya.detail1}</p>
-          <p className={styles.detail}>{dict.filosofiya.detail2}</p>
         </div>
       </section>
 

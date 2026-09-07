@@ -102,8 +102,6 @@ const en: Dictionary = {
     statement: "We don't create scents — we create states of being: subtle, recognizable, yours.",
     detail1:
       "Sublima was born from a wish to bring intimacy back to perfumery: hand-assembly, small batches, a conversation with the client rather than a shop window.",
-    detail2:
-      "Every fragrance is a complete story, not a list of notes: it has an intention, a character, and the right to remain itself against your skin.",
     values: [
       {
         title: "Handmade",

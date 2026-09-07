@@ -95,7 +95,6 @@ export type Dictionary = {
     titleItalic: string;
     statement: string;
     detail1: string;
-    // detail2: string;
     values: { title: string; text: string }[];
   };
   kontakty: {
