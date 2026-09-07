@@ -3,6 +3,18 @@ import type { Locale } from "./i18n/config";
 type LocalizedText = { ru: string; en: string };
 type LocalizedList = { ru: string[]; en: string[] };
 
+export const VOLUMES = [15, 50, 100] as const;
+export type VolumeMl = (typeof VOLUMES)[number];
+export const PRICE_BY_VOLUME: Record<VolumeMl, number> = {
+  15: 11900,
+  50: 29900,
+  100: 49900,
+};
+
+export function volumeLabel(ml: number, locale: Locale): string {
+  return locale === "en" ? `${ml} ml` : `${ml} мл`;
+}
+
 export type Product = {
   id: number;
   slug: string;
@@ -11,8 +23,6 @@ export type Product = {
   nameItalic: string;
   sub: string;
   notes: { top: string[]; heart: string[]; base: string[] };
-  price: number;
-  volume: string;
   stock: number;
   sceneColor: string;
   images: {
@@ -36,28 +46,38 @@ type ProductSource = Omit<Product, "sub" | "notes" | "story"> & {
 const img = (n: number) => `/images/духи${n}.webp`;
 /** Estragenesis ships with mood/concept photography only, pending studio
  * bottle shots — swap these paths once the real product photos arrive. */
-const estraImg = (n: "" | 1 | 2 | 3) => `/images/Estragenesis/estragenesis${n}.webp`;
+const estraImg = (n: "" | 1 | 2 | 3 | "-main-right") => `/images/Estragenesis/estragenesis${n}.webp`;
 /** Waltz ships with mood/concept photography only, pending studio
  * bottle shots — swap these paths once the real product photos arrive. */
-const waltzImg = (n: "" | 1 | 2 | 3) => `/images/Waltz/waltz${n}.webp`;
+const waltzImg = (n: "" | 1 | 2 | 3 | "-main-right") => `/images/Waltz/waltz${n}.webp`;
 /** Chambon ships with mood/concept photography only, pending studio
  * bottle shots — swap these paths once the real product photos arrive. */
-const chambonImg = (n: "" | 1 | 2 | 3) => `/images/Chambon/chambon${n}.webp`;
+const chambonImg = (n: "" | 1 | 2 | 3 | "-main-right") => `/images/Chambon/chambon${n}.webp`;
 /** Sweetheart ships with mood/concept photography only, pending studio
  * bottle shots — swap these paths once the real product photos arrive. */
-const sweetheartImg = (n: "" | 1 | 2 | 3) => `/images/Sweetheart/sweetheart${n}.webp`;
+const sweetheartImg = (n: "" | 1 | 2 | 3 | "-main-right") => `/images/Sweetheart/sweetheart${n}.webp`;
 /** Înviere ships with mood/concept photography only, pending studio
  * bottle shots — swap these paths once the real product photos arrive. */
-const inviereImg = (n: "" | 1 | 2 | 3) => `/images/Inviere/inviere${n}.webp`;
+const inviereImg = (n: "" | 1 | 2 | 3 | "-main-right") => `/images/Inviere/inviere${n}.webp`;
 /** Journal ships with mood/concept photography only, pending studio
  * bottle shots — swap these paths once the real product photos arrive. */
-const journalImg = (n: "" | 1 | 2 | 3) => `/images/Journal/journal${n}.webp`;
+const journalImg = (n: "" | 1 | 2 | 3 | "-main-right") => `/images/Journal/journal${n}.webp`;
 /** El Hank ships with mood/concept photography only, pending studio
  * bottle shots — swap these paths once the real product photos arrive. */
-const elHankImg = (n: "" | 1 | 2 | 3) => `/images/El-Hank/el-hank${n}.webp`;
+const elHankImg = (n: "" | 1 | 2 | 3 | "-main-right") => `/images/El-Hank/el-hank${n}.webp`;
 /** Secret T. ships with mood/concept photography only, pending studio
  * bottle shots — swap these paths once the real product photos arrive. */
-const secretTImg = (n: "" | 1 | 2 | 3) => `/images/Secret-T/secret-t${n}.webp`;
+const secretTImg = (n: "" | 1 | 2 | 3 | "-main-right") => `/images/Secret-T/secret-t${n}.webp`;
+
+// "heart" section (02 — Сердце аромата) photos
+const estraSinglePage = "/images/Estragenesis/estragenesis-single-page.webp";
+const waltzSinglePage = "/images/Waltz/waltz-single-page.webp";
+const chambonSinglePage = "/images/Chambon/chambon-single-page.webp";
+const sweetheartSinglePage = "/images/Sweetheart/sweetheart-single-page.webp";
+const inviereSinglePage = "/images/Inviere/inviere-single-page.webp";
+const journalSinglePage = "/images/Journal/journal-single-page.webp";
+const elHankSinglePage = "/images/El-Hank/el-hank-single-page.webp";
+const secretTSinglePage = "/images/Secret-T/secret-t-single-page.webp";
 
 const PRODUCT_SOURCES: ProductSource[] = [
   {
@@ -73,8 +93,8 @@ const PRODUCT_SOURCES: ProductSource[] = [
     sub: { ru: "Зелёный анималистический", en: "Green Animalic" },
     notes: {
       top: {
-        ru: ["Ландыш", "Черёмуха", "Эстрагон", "Имбирь"],
-        en: ["Lily of the Valley", "Bird Cherry", "Tarragon", "Ginger"],
+        ru: ["Ландыш", "Имбирь", "Эстрагон", "Черёмуха"],
+        en: ["Lily of the Valley", "Ginger", "Tarragon", "Bird Cherry"],
       },
       heart: {
         ru: ["Почки тополя", "Ревень", "Цветочный мёд"],
@@ -85,20 +105,18 @@ const PRODUCT_SOURCES: ProductSource[] = [
         en: ["Sandalwood", "Castoreum", "Musk", "Vetiver", "Benzoin"],
       },
     },
-    price: 19500,
-    volume: "50 мл",
     stock: 5,
     sceneColor: "#5c5f3a",
     images: {
       collection: [img(1), img(3), img(4)],
-      hero: estraImg(3),
+      hero: estraImg("-main-right"),
       notesImg: estraImg(""),
-      heart: estraImg(2),
+      heart: estraSinglePage,
       cta: [img(1), img(3), img(4)],
     },
     story: {
-      ru: "Аромат посвящён воплощению контрастного сочетания двух природных доминант — растительного и животного миров. Баланс между травяной свежестью и пряной плотностью анималистичных нот отражает рождающуюся в этом единстве либидинальную энергию. Estragenesis — это баланс, равенство, мир и энергия. Вдохновение и влечение всегда берут начало в ресурсе, а ресурс — есть гармония.",
-      en: "This fragrance is devoted to embodying a contrasting union between two dominant forces of nature — the vegetal and the animal. The balance between herbal freshness and the spiced density of animalic notes reflects the libidinal energy born from this unity. Estragenesis is balance, equality, peace, and energy. Inspiration and attraction always originate in resource, and resource is harmony.",
+      ru: "Этот аромат воплощает в себе контрастный союз двух доминирующих сил природы — растительной и животной. Баланс между травянистой свежестью и пряной насыщенностью теплых телесных нот отражает либидинальную энергию, рожденную из природного единства. Estragenesis — это стихийность, сила, энергия и равновесие. Вдохновение и влечение всегда берут начало в ресурсе, а ресурс — это гармония.",
+      en: "This fragrance embodies a contrasting union of two dominant forces of nature — the botanical and the animalic. The balance between herbal freshness and the spicy intensity of warm skin-like notes reflects a libidinal energy born from natural unity. Estragenesis is raw spontaneity, power, energy, and equilibrium. Inspiration and attraction always originate from an inner resource, and that resource is harmony.",
     },
   },
   {
@@ -113,8 +131,8 @@ const PRODUCT_SOURCES: ProductSource[] = [
     sub: { ru: "Гурманский амбровый", en: "Gourmand Amber" },
     notes: {
       top: {
-        ru: ["Еловые ветви", "Молоко"],
-        en: ["Spruce Branches", "Milk"],
+        ru: ["Еловые ветви", "Молоко", "Сахар"],
+        en: ["Spruce Branches", "Milk", "Sugar"],
       },
       heart: {
         ru: ["Вишня", "Лесной орех", "Горький шоколад"],
@@ -125,20 +143,18 @@ const PRODUCT_SOURCES: ProductSource[] = [
         en: ["Tonka Bean", "Musk", "Patchouli", "Olibanum"],
       },
     },
-    price: 18500,
-    volume: "50 мл",
     stock: 3,
     sceneColor: "#7a1f2b",
     images: {
       collection: [img(1), img(3), img(4)],
-      hero: waltzImg(1),
+      hero: waltzImg("-main-right"),
       notesImg: waltzImg(""),
-      heart: waltzImg(2),
+      heart: waltzSinglePage,
       cta: [img(1), img(3), img(4)],
     },
     story: {
-      ru: "Юность — самый чувственный период, словно дышащий желаниями и стремлениями, а внутренний голос мелодичен, как праздничный вальс. Молодые люди светятся счастьем амбиций в головокружительном танце, сближающем души. Waltz — это вкус покорения первых вершин судьбы, из робкого становящийся терпким.",
-      en: "Youth is the most sensual of seasons, breathing with desire and ambition, its inner voice as melodic as a festive waltz. Young hearts glow with the joy of ambition in a dizzying dance that draws souls together. Waltz is the taste of conquering fate's first summits — turning, from timid, into something rich and lasting.",
+      ru: "Юность - самый чувственный период, словно дышащий желаниями и стремлениями. Буря эмоций кружит голову в трепетном танце под грохот оркестра. Waltz - это ностальгический аромат о юности и первой любви. Воспоминания о главных свершениях, волнительных свиданиях и светлой меланхолии. Вкус робости, обретающий терпкость.",
+      en: "Youth is the most sensuous age, breathing with desires and aspirations. A storm of emotion spins the senses in a tender dance to the rumble of an orchestra. Waltz is a nostalgic fragrance of youth and first love — memories of milestone moments, thrilling dates, and a luminous melancholy. The taste of shyness acquiring a tart, sophisticated edge.",
     },
   },
   {
@@ -157,28 +173,26 @@ const PRODUCT_SOURCES: ProductSource[] = [
         en: ["Champagne", "Yuzu", "Red Apple"],
       },
       heart: {
-        ru: ["Папирус", "Выделанная кожа"],
-        en: ["Papyrus", "Tanned Leather"],
+        ru: ["Папирус", "Выделанная кожа", "Ваниль"],
+        en: ["Papyrus", "Tanned Leather", "Vanilla"],
       },
       base: {
-        ru: ["Кедровое дерево", "Ветивер", "Ваниль"],
-        en: ["Cedarwood", "Vetiver", "Vanilla"],
+        ru: ["Кедр", "Ветивер", "Гваяковое дерево", "Уд"],
+        en: ["Cedar", "Vetiver", "Guaiac wood", "Oud"],
       },
     },
-    price: 21000,
-    volume: "50 мл",
     stock: 5,
     sceneColor: "#6b4a2e",
     images: {
       collection: [img(5), img(7), img(5)],
-      hero: chambonImg(2),
+      hero: chambonImg("-main-right"),
       notesImg: chambonImg(1),
-      heart: chambonImg(""),
+      heart: chambonSinglePage,
       cta: [img(5), img(7), img(5)],
     },
     story: {
-      ru: "Шамбон — элемент сбруи для скаковой лошади, аксессуар, обеспечивающий контроль над силой и своенравным характером. Этот аромат посвящён своеобразной красоте власти. Доминантный нрав обладает сложной глубинной философией и имеет большое количество граней, порой скрывающихся в ослепительном свете роскоши.",
-      en: "A chambon is a piece of tack for a racehorse — an accessory that grants control over strength and a willful nature. This fragrance is devoted to the singular beauty of power. A dominant character carries a complex, deep philosophy, its many facets sometimes hidden within the dazzling light of luxury.",
+      ru: "Шамбон - элемент сбруи для скаковой лошади, аксессуар, обеспечивающий контроль над силой и своенравным характером. Этот аромат посвящен своеобразной красоте власти. Доминантный нрав обладает сложной глубинной философией и имеет множество граней, порой скрывающихся в ослепительном свете роскоши.",
+      en: "The chambon is a piece of equestrian harness for a racehorse — an accessory that ensures control over raw power and a headstrong nature. This fragrance is dedicated to the distinctive beauty of authority. A dominant disposition possesses a complex, deep philosophy with many facets, sometimes veiled beneath the dazzling glow of luxury.",
     },
   },
   {
@@ -193,32 +207,30 @@ const PRODUCT_SOURCES: ProductSource[] = [
     sub: { ru: "Цветочный гурманский", en: "Floral Gourmand" },
     notes: {
       top: {
-        ru: ["Бергамот", "Молочный улун"],
-        en: ["Bergamot", "Milk Oolong"],
+        ru: ["Бергамот", "Молочный улун", "Сычуаньский перец"],
+        en: ["Bergamot", "Milk Oolong", "Sichuan pepper"],
       },
       heart: {
-        ru: ["Персик", "Тубероза", "Жасмин", "Сычуаньский перец"],
-        en: ["Peach", "Tuberose", "Jasmine", "Sichuan Pepper"],
+        ru: ["Персик", "Тубероза", "Жасмин"],
+        en: ["Peach", "Tuberose", "Jasmine"],
       },
       base: {
         ru: ["Сандал", "Пачули", "Синтетический мускус", "Ванилин"],
         en: ["Sandalwood", "Patchouli", "Synthetic Musk", "Vanillin"],
       },
     },
-    price: 16800,
-    volume: "50 мл",
     stock: 7,
     sceneColor: "#e0879a",
     images: {
       collection: [img(9), img(11), img(12)],
-      hero: sweetheartImg(2),
+      hero: sweetheartImg("-main-right"),
       notesImg: sweetheartImg(""),
-      heart: sweetheartImg(3),
+      heart: sweetheartSinglePage,
       cta: [img(9), img(11), img(12)],
     },
     story: {
-      ru: "Многогранный, динамичный, акцентный, сочетающий в себе несколько ольфакторных вселенных, — sweetheart символизирует искусство женственности. В нём представлена концепция контраста между социально желательным искусственным образом женщины и великими истинно женскими качествами, внушающими зависть и восхищение.",
-      en: "Multifaceted, dynamic, striking, uniting several olfactory universes within itself — Sweetheart is a symbol of the art of femininity. It embodies the contrast between the socially desirable, artificial image of a woman and the great, truly feminine qualities that inspire envy and admiration.",
+      ru: "Многогранный, динамичный, акцентный, сочетающий в себе несколько ольфакторных вселенных, - sweetheart символизирует искусство женственности. В нем представлена концепция контраста между социально желательным искусственным образом женщины и великими истинно женскими качествами, внушающими зависть и восхищение.",
+      en: "Multifaceted, dynamic, and accentual — blending multiple olfactive universes — Sweetheart symbolizes the art of femininity. It presents the concept of contrast between a socially desirable, artificial image of a woman and the great, true feminine qualities that inspire envy and admiration.",
     },
   },
   {
@@ -245,20 +257,18 @@ const PRODUCT_SOURCES: ProductSource[] = [
         en: ["Frankincense", "Oakmoss", "Charcoal"],
       },
     },
-    price: 19200,
-    volume: "50 мл",
     stock: 4,
     sceneColor: "#3a1930",
     images: {
       collection: [img(13), img(15), img(16)],
-      hero: inviereImg(1),
+      hero: inviereImg("-main-right"),
       notesImg: inviereImg(3),
-      heart: inviereImg(""),
+      heart: inviereSinglePage,
       cta: [img(13), img(15), img(16)],
     },
     story: {
-      ru: "Înviere с румынского переводится как «воскрешение», отсылая нас к готическим персонажам, призванным отразить необходимость символической «смерти» во благо трансформации. Этот аромат раскрывает философскую идею внутренних изменений и их субъективной цены. Чудо новой жизни мы способны понять, лишь увидев руины прошлого, — равно как не существует Света, не отбрасывающего Тень.",
-      en: "Înviere translates from Romanian as \"resurrection,\" evoking gothic figures meant to reflect the necessity of a symbolic \"death\" in service of transformation. This fragrance reveals the philosophical idea of inner change and its subjective cost. The miracle of new life can only be understood once we have seen the ruins of the past — just as there is no Light that casts no Shadow.",
+      ru: "Înviere с румынского переводится как «воскрешение», остылая нас к готическим метафорам, призванным отразить необходимость символической «смерти» во имя трансформации. Этот аромат раскрывает философскую идею внутренних изменений и их субъективной цены.Чудо новой жизи мы способны понять, лишь увидев руины прошлого, равно как не существует Света, не создающего Тень.",
+      en: "Înviere derived from the Romanian word for \"Resurrection\", Înviere references gothic metaphors designed to reflect the necessity of a symbolic \"death\" in the name of transformation. This fragrance unravels the philosophical concept of inner change and its subjective price. We are only capable of understanding the miracle of new life once we witness the ruins of the past, just as there is no Light that does not cast a Shadow.",
     },
   },
   {
@@ -273,32 +283,30 @@ const PRODUCT_SOURCES: ProductSource[] = [
     sub: { ru: "Пудровый гурманский", en: "Powdery Gourmand" },
     notes: {
       top: {
-        ru: ["Аккорд бумаги", "Ирисовое масло"],
-        en: ["Paper Accord", "Iris Oil"],
+        ru: ["Масло Ириса", "Аккорд бумаги", "Хлопок"],
+        en: ["Iris Oil", "Paper Accord", "Cotton"],
       },
       heart: {
-        ru: ["Кофе", "Сублимированная малина", "Хлопок"],
-        en: ["Coffee", "Freeze-Dried Raspberry", "Cotton"],
+        ru: ["Кофе", "Сублимированная малина", "Аккорд горячего пара"],
+        en: ["Coffee", "Freeze-Dried Raspberry", "Hot steam accord"],
       },
       base: {
-        ru: ["Синтетический мускус", "Металлические ноты", "Кора дуба"],
-        en: ["Synthetic Musk", "Metallic Notes", "Oak Bark"],
+        ru: ["Металлические ноты", "Синтетический мускус", "Дубовая Кора"],
+        en: ["Metallic Notes", "Synthetic Musk", "Oak Bark"],
       },
     },
-    price: 24500,
-    volume: "50 мл",
     stock: 2,
     sceneColor: "#6b5744",
     images: {
       collection: [img(17), img(19), img(20)],
-      hero: journalImg(3),
+      hero: journalImg("-main-right"),
       notesImg: journalImg(""),
-      heart: journalImg(2),
+      heart: journalSinglePage,
       cta: [img(17), img(19), img(20)],
     },
     story: {
-      ru: "Каждый человек, избравший своей целью исцеление, сам познал боль, от которой стремится избавить других. Аромат journal — это способ увековечить масштаб личности профессионального психотерапевта, неочевидный обывателю. Не типичная похвала результатам и процессу работы, а сочувствие и уважение к причине, по которой целью жизни стало спасение чужих душ.",
-      en: "Everyone who chooses healing as their purpose has known, firsthand, the pain they now strive to relieve in others. The fragrance Journal is a way to commemorate the scale of a professional psychotherapist's personality — one invisible to the layman. Not the typical praise for results and process, but compassion and respect for the reason that made saving other people's souls a life's purpose.",
+      ru: "Каждый человек, избравший своей целью исцеление других, сам познал боль, от которой стремится избавить окружающих. Аромат journal - это способ продемонстрировать и увековечить обратную сторону психотерапевтического процесса - личность специалиста. Насыщенный, уникальный, ценный мир, обычно остающийся «за кадром».",
+      en: "Every person who chooses to heal others has known the very pain they seek to relieve. Journal is a way to reveal and immortalize the hidden side of the psychotherapeutic process — the personality of the specialist. A rich, unique, and precious inner world that usually remains \"behind the scenes.\"",
     },
   },
   {
@@ -321,24 +329,22 @@ const PRODUCT_SOURCES: ProductSource[] = [
         en: ["Fig", "Cocoa", "Saffron", "Osmanthus"],
       },
       base: {
-        ru: ["Амбра", "Пачули", "Бензоин", "Лабданум"],
-        en: ["Amber", "Patchouli", "Benzoin", "Labdanum"],
+        ru: ["Амбра", "Пачули", "Бензоин", "Лабданум", "Уд"],
+        en: ["Amber", "Patchouli", "Benzoin", "Labdanum", "Oud"],
       },
     },
-    price: 15900,
-    volume: "50 мл",
     stock: 8,
     sceneColor: "#c2571b",
     images: {
       collection: [img(21), img(23), img(24)],
-      hero: elHankImg(2),
+      hero: elHankImg("-main-right"),
       notesImg: elHankImg(3),
-      heart: elHankImg(1),
+      heart: elHankSinglePage,
       cta: [img(21), img(23), img(24)],
     },
     story: {
-      ru: "Прообраз главного маяка Марокко служит в этом аромате отражением необходимости познания и репрезентации своей уникальности. Каждая личность обладает красочной, самобытной индивидуальностью, культурой и историей рода. Но мастерство интегрировать опыт предков и своей социокультурной среды — это приобретённый навык, позволяющий принимать свою самость и проводить как соединительную линию, так и границу между собой и миром.",
-      en: "The image of Morocco's principal lighthouse serves, in this fragrance, as a reflection of the need to know and represent one's own uniqueness. Every individual holds a colorful, distinctive identity, culture, and ancestral history. But the skill of integrating the experience of one's ancestors with one's sociocultural environment is an acquired skill — one that allows a person to accept their own selfhood, drawing both a connecting line and a boundary between themselves and the world.",
+      ru: "Прообраз главного маяка Марокко служит в этом аромате отражением необходимости познания и репрезентации своей уникальности. Каждая личность обладает красочной, самобытной индивидуальностью, культурой и историей рода. Но мастерство интегрировать опыт предков и своей социокультурной среды - это приобретенный навык, позволяющий принимать свою самость и проводить как соединительную линию, так и границу между собой и миром.",
+      en: "In this fragrance, the prototype of Morocco’s primary lighthouse serves as a reflection of the need to explore and represent one's own uniqueness. Every individual possesses a vivid, distinct personality, rich culture, and ancestral heritage. Yet, the mastery of integrating the wisdom of one's ancestors and sociocultural environment is an acquired skill — one that enables us to embrace our true self, drawing both a connecting line and a clear boundary between ourselves and the world.",
     },
   },
   {
@@ -353,27 +359,25 @@ const PRODUCT_SOURCES: ProductSource[] = [
     sub: { ru: "Табачный кожаный", en: "Tobacco Leather" },
     notes: {
       top: {
-        ru: ["Цветок табака", "Злаки", "Чёрный перец", "Кориандр"],
-        en: ["Tobacco Flower", "Grains", "Black Pepper", "Coriander"],
+        ru: ["Цветок табака", "Чёрный перец", "Кориандр", "Лимон"],
+        en: ["Tobacco Flower", "Black Pepper", "Coriander", "Limon"],
       },
       heart: {
-        ru: ["Табачный лист", "Тинктура таволги", "Липовый цвет", "Змеиный яд"],
-        en: ["Tobacco Leaf", "Meadowsweet Tincture", "Lime Blossom", "Snake Venom"],
+        ru: ["Табачный лист", "Тинктура таволги", "Грибы"],
+        en: ["Tobacco Leaf", "Meadowsweet Tincture", "Mushroom"],
       },
       base: {
-        ru: ["Хересовая бочковая щепа", "Цибетин", "Кожа", "Ладан", "Уд"],
-        en: ["Sherry Cask Chips", "Civetone", "Leather", "Frankincense", "Oud"],
+        ru: ["Анималистичные ноты", "Кожа", "Ладан", "Хересная Щепа"],
+        en: ["Animalic notes", "Leather", "Frankincense", "Sherry wood chips"],
       },
     },
-    price: 20400,
-    volume: "50 мл",
     stock: 3,
     sceneColor: "#1c1712",
     images: {
       collection: [img(25), img(27), img(28)],
-      hero: secretTImg(""),
+      hero: secretTImg("-main-right"),
       notesImg: secretTImg(1),
-      heart: secretTImg(3),
+      heart: secretTSinglePage,
       cta: [img(25), img(27), img(25)],
     },
     story: {

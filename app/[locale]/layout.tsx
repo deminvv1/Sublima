@@ -27,7 +27,7 @@ export function generateStaticParams() {
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: "SUBLIMA — Коллекция",
-  description: "Sublima — эксклюзивная парфюмерия. Коллекция 2024.",
+  description: "Sublima — эксклюзивная парфюмерия. Коллекция Лица.",
 };
 
 export default async function RootLayout({

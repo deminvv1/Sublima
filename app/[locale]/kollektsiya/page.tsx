@@ -37,8 +37,9 @@ export default async function KollektsiyaPage({
         dict={dict}
         active="collection"
         crumbs={[{ label: dict.nav.collection }]}
+        transparent
       />
-      <div style={{ position: "relative", height: "260vh" }}>
+      <div style={{ position: "relative", height: "100vh" }}>
         <Suspense fallback={null}>
           <CollectionScene products={products} locale={locale} dict={dict} />
         </Suspense>

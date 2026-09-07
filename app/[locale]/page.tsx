@@ -4,7 +4,7 @@ import Hero from "@/components/Hero";
 import Philosophy from "@/components/Philosophy";
 import Footer from "@/components/Footer";
 import Preloader from "@/components/Preloader";
-import { getProduct, getProducts } from "@/lib/products";
+import { getProducts } from "@/lib/products";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/getDictionary";
 
@@ -14,8 +14,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const locale: Locale = rawLocale;
   const dict = getDictionary(locale);
   const products = getProducts(locale);
-  const philosophyImage =
-    getProduct(locale, "sweetheart")?.images.heart ?? products[0].images.heart;
+  const philosophyImage = "/images/Sweetheart/sweetheart3.webp";
 
   return (
     <>

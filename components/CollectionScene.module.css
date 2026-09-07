@@ -1,8 +1,8 @@
 .page {
   position: sticky;
-  top: 68px;
+  top: 0;
   width: 100%;
-  height: calc(100vh - 68px);
+  height: 100vh;
   overflow: hidden;
 }
 
@@ -277,7 +277,7 @@
     background 0.3s,
     color 0.3s;
   width: fit-content;
-  border-radius: 10px;
+  /* border-radius: 10px; */
 }
 
 .panel .lbl,

@@ -33,9 +33,23 @@ export default function Header({
 }) {
   const [qty, setQty] = useState(0);
   const [isAtTop, setIsAtTop] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const products = getProducts(locale);
   const restPath = stripLocale(pathname, locale);
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const { overflow } = document.body.style;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = overflow;
+    };
+  }, [menuOpen]);
 
   useEffect(() => {
     const update = () => setQty(cartQty());
@@ -63,7 +77,24 @@ export default function Header({
   };
 
   return (
-    <header className={`${styles.header} ${showTransparent ? styles.transparent : ""}`}>
+    <>
+      <header
+        className={`${styles.header} ${showTransparent ? styles.transparent : ""} ${
+          menuOpen ? styles.menuOpen : ""
+        }`}
+      >
+      <button
+        type="button"
+        className={`${styles.burger} ${menuOpen ? styles.burgerOpen : ""}`}
+        onClick={() => setMenuOpen((v) => !v)}
+        aria-label={dict.nav.menuAria}
+        aria-expanded={menuOpen}
+      >
+        <span />
+        <span />
+        <span />
+      </button>
+
       <div className={styles.brandRow}>
         <Link className={styles.logo} href={href(locale, "/")}>
           Sublima
@@ -108,7 +139,7 @@ export default function Header({
               >
                 <span className={styles.dropdownNum}>{p.num}</span>
                 <span className={styles.dropdownName}>
-                  {p.namePlain} <em>{p.nameItalic}</em>
+                  {p.namePlain}<em>{p.nameItalic}</em>
                 </span>
               </Link>
             ))}
@@ -137,6 +168,55 @@ export default function Header({
           ))}
         </div>
       </nav>
-    </header>
+
+      <Link
+        href={href(locale, "/zakaz")}
+        className={`${styles.cartQuick} ${active === "zakaz" ? styles.on : ""}`}
+      >
+        {dict.nav.order}
+        <span className={`${styles.cartBadge} ${styles.cartBadgeQuick} ${qty > 0 ? styles.show : ""}`}>
+          {qty}
+        </span>
+      </Link>
+      </header>
+
+      <div
+        className={`${styles.mobileMenu} ${menuOpen ? styles.mobileMenuOpen : ""} ${
+          showTransparent ? styles.transparent : ""
+        }`}
+        aria-hidden={!menuOpen}
+      >
+        <Link
+          href={href(locale, "/filosofiya")}
+          className={active === "filosofiya" ? styles.on : undefined}
+        >
+          {dict.nav.philosophy}
+        </Link>
+        <Link
+          href={href(locale, "/kollektsiya")}
+          className={active === "collection" ? styles.on : undefined}
+        >
+          {dict.nav.collection}
+        </Link>
+        <Link
+          href={href(locale, "/kontakty")}
+          className={active === "kontakty" ? styles.on : undefined}
+        >
+          {dict.nav.contacts}
+        </Link>
+        <div className={styles.langSwitch}>
+          {LOCALES.map((l) => (
+            <Link
+              key={l}
+              href={href(l, restPath)}
+              onClick={() => setLocaleCookie(l)}
+              className={`${styles.langBtn} ${l === locale ? styles.langActive : ""}`}
+            >
+              {l.toUpperCase()}
+            </Link>
+          ))}
+        </div>
+      </div>
+    </>
   );
 }

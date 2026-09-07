@@ -12,11 +12,16 @@ export function proxy(request: NextRequest) {
 
   const cookieLocale = request.cookies.get("locale")?.value;
   const acceptLanguage = request.headers.get("accept-language") ?? "";
+  // only the browser's primary (first, highest-priority) language should
+  // decide the locale — a Russian browser's header often still lists
+  // "en" further down (e.g. "ru-RU,ru;q=0.9,en-US;q=0.8"), which
+  // .includes("en") would wrongly match
+  const primaryLanguage = acceptLanguage.split(",")[0]?.trim().toLowerCase() ?? "";
 
   const locale =
     cookieLocale && isLocale(cookieLocale)
       ? cookieLocale
-      : acceptLanguage.toLowerCase().includes("en")
+      : primaryLanguage.startsWith("en")
         ? "en"
         : DEFAULT_LOCALE;
 

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { Product, formatPrice, stockLabel } from "@/lib/products";
+import { Product, VOLUMES, VolumeMl, PRICE_BY_VOLUME, volumeLabel, formatPrice, stockLabel } from "@/lib/products";
 import { addToCart } from "@/lib/cart";
 import { href, type Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/types";
@@ -27,6 +27,9 @@ export default function ProductDetail({
   const [ctaArrowsVisible, setCtaArrowsVisible] = useState(false);
   const ctaPhotosRef = useRef<HTMLDivElement>(null);
   const [ctaArrowPos, setCtaArrowPos] = useState<{ left: number; right: number } | null>(null);
+
+  const [volume, setVolume] = useState<VolumeMl>(50);
+  const price = PRICE_BY_VOLUME[volume];
 
   const [toastVisible, setToastVisible] = useState(false);
   const [addedLabel, setAddedLabel] = useState(false);
@@ -106,10 +109,10 @@ export default function ProductDetail({
 
   const handleAddToCart = () => {
     addToCart({
-      id: p.slug,
-      name: `${p.namePlain} ${p.nameItalic}`,
-      price: p.price,
-      volume: p.volume,
+      id: `${p.slug}-${volume}`,
+      name: `${p.namePlain}${p.nameItalic}`,
+      price,
+      volume: volumeLabel(volume, locale),
       image: p.images.collection[0],
     });
     setAddedLabel(true);
@@ -130,6 +133,15 @@ export default function ProductDetail({
 
   return (
     <>
+      <Link
+        href={href(locale, "/kollektsiya")}
+        className={styles["d-back"]}
+        aria-label={dict.nav.collection}
+      >
+        <span className={styles["d-back-arrow"]}>←</span>
+        {locale === "en" ? "Back to Collection" : "Назад в коллекцию"}
+      </Link>
+
       <div className={styles["d-nav-dots"]}>
         {Array.from({ length: sectionCount }).map((_, i) => (
           <div
@@ -155,7 +167,7 @@ export default function ProductDetail({
               className={`${styles["d-big-title"]} ${styles.da} ${styles["da-up"]}`}
               style={{ transitionDelay: "0.18s" }}
             >
-              {p.namePlain} <em>{p.nameItalic}</em>
+              {p.namePlain}<em>{p.nameItalic}</em>
             </h1>
             <p
               className={`${styles["d-tagline"]} ${styles.da} ${styles["da-up"]}`}
@@ -217,7 +229,6 @@ export default function ProductDetail({
         </section>
 
         <section ref={setSection(3)} className={`${styles.ds} ${styles["ds-base"]}`}>
-          <div className={styles["d-base-ghost"]}>{p.nameItalic}</div>
           <div style={{ position: "relative", zIndex: 1 }}>
             <div
               className={`${styles["d-sec-label"]} ${styles.da} ${styles["da-left"]}`}
@@ -331,7 +342,7 @@ export default function ProductDetail({
                 className={`${styles["cta-p-title"]} ${styles.da} ${styles["da-up"]}`}
                 style={{ transitionDelay: "0.22s" }}
               >
-                {p.namePlain} <em>{p.nameItalic}</em>
+                {p.namePlain}<em>{p.nameItalic}</em>
               </div>
               <div
                 className={`${styles["cta-p-sub"]} ${styles.da} ${styles["da-up"]}`}
@@ -354,10 +365,25 @@ export default function ProductDetail({
                 <div className={styles["cta-p-note-line"]}>{p.notes.base.join(" · ")}</div>
               </div>
               <div
+                className={`${styles["cta-p-volumes"]} ${styles.da} ${styles["da-up"]}`}
+                style={{ transitionDelay: "0.42s" }}
+              >
+                {VOLUMES.map((ml) => (
+                  <button
+                    key={ml}
+                    type="button"
+                    className={`${styles["cta-p-vol"]} ${ml === volume ? styles.on : ""}`}
+                    onClick={() => setVolume(ml)}
+                  >
+                    {volumeLabel(ml, locale)}
+                  </button>
+                ))}
+              </div>
+              <div
                 className={`${styles["cta-p-price"]} ${styles.da} ${styles["da-up"]}`}
                 style={{ transitionDelay: "0.46s" }}
               >
-                {formatPrice(p.price, locale)} <span>₽ / {p.volume}</span>
+                {formatPrice(price, locale)} <span>₽ / {volumeLabel(volume, locale)}</span>
               </div>
               <div
                 className={`${styles["cta-p-stock"]} ${styles.da} ${styles["da-up"]}`}
@@ -384,7 +410,7 @@ export default function ProductDetail({
         <div>
           <div className={styles["ct-top"]}>{dict.product.toastTitle}</div>
           <div className={styles["ct-bot"]}>
-            {p.namePlain} {p.nameItalic} · {p.volume}
+            {p.namePlain}{p.nameItalic} · {volumeLabel(volume, locale)}
           </div>
           <Link className={styles["ct-link"]} href={href(locale, "/zakaz")}>
             {dict.product.toastLink}

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
-import { Product, formatPrice } from "@/lib/products";
+import { Product, PRICE_BY_VOLUME, volumeLabel, formatPrice } from "@/lib/products";
 import { href, type Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/types";
 import styles from "./CollectionScene.module.css";
@@ -47,19 +47,36 @@ export default function CollectionScene({
   const busyRef = useRef(false);
   const photosRef = useRef<HTMLDivElement>(null);
   const pageRef = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(false);
+  // "locked" = native page scroll is fully disabled and wheel/touch/keys only
+  // step through products; this is what stops a fast scroll from blowing past
+  // the section and revealing the footer while the user is still mid-collection
+  const [locked, setLocked] = useState(true);
+  const active = locked;
 
-  // only hijack scroll/keys and show the fixed overlays once this section
-  // has scrolled into its pinned (sticky) position
+  // freeze native scrolling while locked so the footer can only ever appear
+  // once the user has actually stepped past the last fragrance
   useEffect(() => {
-    const el = pageRef.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(([entry]) => setActive(entry.isIntersecting), {
-      threshold: 0.6,
-    });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
+    if (!locked) return;
+    // only freeze <body> — also freezing <html> triggers an iOS Safari bug
+    // where a fixed, backdrop-filter'd header (the transparent header here)
+    // renders as a flat, washed-out color instead of blurring
+    const { overflow: bodyOverflow } = document.body.style;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = bodyOverflow;
+    };
+  }, [locked]);
+
+  // once unlocked (scrolled past the last fragrance into the footer), watch
+  // for the user scrolling back up to the very top and re-engage the lock
+  useEffect(() => {
+    if (locked) return;
+    const onScroll = () => {
+      if (window.scrollY <= 0) setLocked(true);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [locked]);
 
   const goTo = useCallback(
     (i: number) => {
@@ -96,45 +113,55 @@ export default function CollectionScene({
     });
   }, [cur]);
 
-  // wheel / keyboard / touch navigation
+  // wheel / keyboard / touch navigation — while locked, every gesture is
+  // fully intercepted and just steps `cur`; stepping past the last item (or
+  // before the first) releases the lock so native scroll can take over
   useEffect(() => {
-    let lastWheel = 0;
-    const onWheel = (e: WheelEvent) => {
-      if (!active) return;
+    if (!locked) return;
+    let lastStep = 0;
+    const step = (dir: 1 | -1) => {
       const t = Date.now();
-      if (t - lastWheel < 750) return;
-      lastWheel = t;
-      if (e.deltaY > 0) goTo((cur + 1) % N);
-      else goTo((cur - 1 + N) % N);
+      if (t - lastStep < 750) return;
+      lastStep = t;
+      const next = cur + dir;
+      if (next < 0 || next >= N) {
+        setLocked(false);
+        return;
+      }
+      goTo(next);
+    };
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      step(e.deltaY > 0 ? 1 : -1);
     };
     const onKey = (e: KeyboardEvent) => {
-      if (!active) return;
-      if (e.key === "ArrowDown" || e.key === "ArrowRight") goTo((cur + 1) % N);
-      if (e.key === "ArrowUp" || e.key === "ArrowLeft") goTo((cur - 1 + N) % N);
+      if (e.key === "ArrowDown" || e.key === "ArrowRight") step(1);
+      if (e.key === "ArrowUp" || e.key === "ArrowLeft") step(-1);
     };
     let touchY = 0;
     const onTouchStart = (e: TouchEvent) => {
       touchY = e.touches[0].clientY;
     };
-    const onTouchEnd = (e: TouchEvent) => {
-      if (!active) return;
-      const d = touchY - e.changedTouches[0].clientY;
-      if (Math.abs(d) > 45) {
-        if (d > 0) goTo((cur + 1) % N);
-        else goTo((cur - 1 + N) % N);
-      }
+    const onTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
     };
-    window.addEventListener("wheel", onWheel, { passive: true });
+    const onTouchEnd = (e: TouchEvent) => {
+      const d = touchY - e.changedTouches[0].clientY;
+      if (Math.abs(d) > 45) step(d > 0 ? 1 : -1);
+    };
+    window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("keydown", onKey);
     window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
     window.addEventListener("touchend", onTouchEnd, { passive: true });
     return () => {
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("touchend", onTouchEnd);
     };
-  }, [cur, N, goTo, active]);
+  }, [cur, N, goTo, locked]);
 
   // position the photo-slide arrows around the letterboxed (contain) image,
   // in coordinates local to the .photos container (not the viewport) so the
@@ -231,13 +258,13 @@ export default function CollectionScene({
               >
                 <Image src={p.images.hero} alt="" fill sizes="55vw" className={styles.panelImg} />
                 <span className={styles.tlabel}>
-                  {p.namePlain} {p.nameItalic}
+                  {p.namePlain}{p.nameItalic}
                 </span>
                 <div className={styles.pcont}>
                   <div className={styles.lbl}>{dict.collectionLabel}</div>
                   <div className={styles.num}>{p.num}</div>
                   <div className={styles.name}>
-                    {p.namePlain} <em>{p.nameItalic}</em>
+                    {p.namePlain}<em>{p.nameItalic}</em>
                   </div>
                   <div className={styles.sub}>{p.sub}</div>
                   <div className={styles.nlbl}>{dict.pyramidLabel}</div>
@@ -247,7 +274,8 @@ export default function CollectionScene({
                     {p.notes.base.join(". ")}
                   </div>
                   <div className={styles.price}>
-                    {formatPrice(p.price, locale)} <span>₽ / {p.volume}</span>
+                    {locale === "en" ? "from" : "от"} {formatPrice(PRICE_BY_VOLUME[15], locale)}{" "}
+                    <span>₽ / {volumeLabel(15, locale)}</span>
                   </div>
                   <Link
                     className={styles.btn}

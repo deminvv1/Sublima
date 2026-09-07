@@ -20,7 +20,7 @@ import { withLineBreaks } from "@/lib/i18n/textUtils";
 import StyledSelect from "./StyledSelect";
 import styles from "./OrderForm.module.css";
 
-type Field = "name" | "phone" | "email";
+type Field = "name" | "lastName" | "phone" | "email";
 type Errors = Partial<Record<Field, string>>;
 
 export default function OrderForm({ locale, dict }: { locale: Locale; dict: Dictionary }) {
@@ -29,7 +29,7 @@ export default function OrderForm({ locale, dict }: { locale: Locale; dict: Dict
     value: String(p.id),
     label: (
       <>
-        {p.num} · {p.namePlain} <em>{p.nameItalic}</em> — {p.sub}
+        {p.num} · {p.namePlain}<em>{p.nameItalic}</em> — {p.sub}
       </>
     ),
   }));
@@ -55,14 +55,17 @@ export default function OrderForm({ locale, dict }: { locale: Locale; dict: Dict
   const [values, setValues] = useState({
     name: "",
     lastName: "",
-    phone: "",
+    phone: "+7 ",
     email: "",
     aroma: initialAroma,
   });
   const [errors, setErrors] = useState<Errors>({});
+  const [consent, setConsent] = useState(false);
+  const [consentError, setConsentError] = useState(false);
 
   const validateField = (field: Field, value: string): string | undefined => {
     if (field === "name" && !isValidName(value)) return dict.validation.name;
+    if (field === "lastName" && !isValidName(value)) return dict.validation.lastName;
     if (field === "phone") {
       if (!value.trim()) return dict.validation.phoneRequired;
       if (!isValidPhone(value)) return dict.validation.phoneInvalid;
@@ -82,10 +85,6 @@ export default function OrderForm({ locale, dict }: { locale: Locale; dict: Dict
     setErrors((prev) => ({ ...prev, [field]: validateField(field, e.target.value) }));
   };
 
-  const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValues((prev) => ({ ...prev, lastName: e.target.value }));
-  };
-
   const handleAromaChange = (aroma: string) => {
     setValues((prev) => ({ ...prev, aroma }));
   };
@@ -94,11 +93,13 @@ export default function OrderForm({ locale, dict }: { locale: Locale; dict: Dict
     e.preventDefault();
     const nextErrors: Errors = {
       name: validateField("name", values.name),
+      lastName: validateField("lastName", values.lastName),
       phone: validateField("phone", values.phone),
       email: validateField("email", values.email),
     };
     setErrors(nextErrors);
-    if (Object.values(nextErrors).some(Boolean)) return;
+    setConsentError(!consent);
+    if (Object.values(nextErrors).some(Boolean) || !consent) return;
     if (cart.length > 0) clearCart();
     setSubmitted(true);
   };
@@ -184,14 +185,17 @@ export default function OrderForm({ locale, dict }: { locale: Locale; dict: Dict
 
               <form onSubmit={handleSubmit} noValidate>
                 <div className={styles["field-row"]}>
-                  <div className={styles.field}>
+                  <div className={`${styles.field} ${errors.lastName ? styles.invalid : ""}`}>
                     <label>{dict.form.lastName}</label>
                     <input
                       type="text"
                       placeholder={dict.form.lastNamePlaceholder}
                       value={values.lastName}
-                      onChange={handleLastNameChange}
+                      onChange={handleChange("lastName")}
+                      onBlur={handleBlur("lastName")}
+                      required
                     />
+                    {errors.lastName && <div className={styles["field-error"]}>{errors.lastName}</div>}
                   </div>
                   <div className={`${styles.field} ${errors.name ? styles.invalid : ""}`}>
                     <label>{dict.form.name}</label>
@@ -251,13 +255,28 @@ export default function OrderForm({ locale, dict }: { locale: Locale; dict: Dict
                   <textarea placeholder={dict.order.wishesPlaceholder} />
                 </div>
 
+                <label className={`${styles.consent} ${consentError ? styles.invalid : ""}`}>
+                  <input
+                    type="checkbox"
+                    checked={consent}
+                    onChange={(e) => {
+                      setConsent(e.target.checked);
+                      if (e.target.checked) setConsentError(false);
+                    }}
+                  />
+                  <span>
+                    {dict.order.consentPrefix}{" "}
+                    <Link href={href(locale, "/politika-konfidentsialnosti")}>
+                      {dict.order.consentLink}
+                    </Link>
+                  </span>
+                </label>
+                {consentError && <div className={styles["field-error"]}>{dict.order.consentError}</div>}
+
                 <div className={styles["submit-row"]}>
                   <button className={styles["btn-submit"]} type="submit">
                     {dict.order.submitBtn}
                   </button>
-                  <Link className={styles.policy} href={href(locale, "/politika-konfidentsialnosti")}>
-                    {withLineBreaks(dict.order.policy)}
-                  </Link>
                 </div>
               </form>
             </div>

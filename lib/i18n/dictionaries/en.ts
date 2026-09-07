@@ -6,6 +6,7 @@ const en: Dictionary = {
     collection: "Collection",
     order: "Order",
     contacts: "Contacts",
+    menuAria: "Menu",
   },
   hero: {
     eyebrow: "Exclusive Perfumery · 2024 Collection",
@@ -55,7 +56,7 @@ const en: Dictionary = {
     successText: "We will reach out to you\nwithin 24 hours",
   },
   form: {
-    lastName: "Last name",
+    lastName: "Last name *",
     lastNamePlaceholder: "Smith",
     name: "First name *",
     namePlaceholder: "Alexander",
@@ -77,6 +78,9 @@ const en: Dictionary = {
       "Tell us about your preferences, the occasion, or any questions… For example: pair the order with a bouquet of flowers",
     submitBtn: "Send Request",
     policy: "By clicking the button, you agree\nto the privacy policy",
+    consentPrefix: "I agree to the",
+    consentLink: "privacy policy",
+    consentError: "You must agree to the privacy policy",
     successText:
       "Thank you! Our consultant will reach out\nwithin 24 hours.\nPlease check your email — we'll send a confirmation.",
     backLink: "← Back to the Collection",
@@ -86,6 +90,7 @@ const en: Dictionary = {
   },
   validation: {
     name: "Please enter your name",
+    lastName: "Please enter your last name",
     phoneRequired: "Please enter a phone number",
     phoneInvalid: "Please check the phone number",
     emailInvalid: "Please check the email address",

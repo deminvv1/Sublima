@@ -20,7 +20,7 @@ export async function generateMetadata({
       }
     : {
         title: "SUBLIMA — Философия",
-        description: "Философия дома Sublima: концепция бренда и подход к созданию ароматов.",
+        description: "Философия Sublima: концепция бренда и подход к созданию ароматов.",
       };
 }
 

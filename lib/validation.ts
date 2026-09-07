@@ -5,11 +5,18 @@ export function isValidName(value: string): boolean {
 export const PHONE_MAX_DIGITS = 11;
 
 export function isValidPhone(value: string): boolean {
+  if (!value.trim().startsWith("+")) return false;
   const digits = value.replace(/\D/g, "");
   return digits.length >= 10 && digits.length <= PHONE_MAX_DIGITS;
 }
 
-/** Strips disallowed characters and caps the digit count while typing. */
+/**
+ * Strips disallowed characters and caps the digit count while typing.
+ * The leading "+7" country code is treated as a fixed prefix: deleting just
+ * the "7" (or the whole thing down to a bare "+") snaps it back, so the
+ * field can only ever be fully emptied (e.g. select-all + delete), never
+ * left starting with anything else.
+ */
 export function sanitizePhoneInput(value: string): string {
   let digitCount = 0;
   let result = "";
@@ -18,9 +25,18 @@ export function sanitizePhoneInput(value: string): string {
       if (digitCount >= PHONE_MAX_DIGITS) continue;
       digitCount++;
       result += char;
-    } else if (/[\s+\-()]/.test(char)) {
+    } else if (/[\s\-()]/.test(char)) {
+      result += char;
+    } else if (char === "+" && result.length === 0) {
       result += char;
     }
+  }
+  if (result.length === 0) return result;
+  const digits = result.replace(/\D/g, "");
+  if (!digits.startsWith("7")) {
+    result = `+7${result.replace(/^\+/, "")}`;
+  } else if (!result.startsWith("+")) {
+    result = `+${result}`;
   }
   return result;
 }

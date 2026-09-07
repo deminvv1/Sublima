@@ -4,6 +4,7 @@ export type Dictionary = {
     collection: string;
     order: string;
     contacts: string;
+    menuAria: string;
   };
   hero: {
     eyebrow: string;
@@ -72,6 +73,9 @@ export type Dictionary = {
     wishesPlaceholder: string;
     submitBtn: string;
     policy: string;
+    consentPrefix: string;
+    consentLink: string;
+    consentError: string;
     successText: string;
     backLink: string;
     visTag: string;
@@ -80,6 +84,7 @@ export type Dictionary = {
   };
   validation: {
     name: string;
+    lastName: string;
     phoneRequired: string;
     phoneInvalid: string;
     emailInvalid: string;
@@ -90,7 +95,7 @@ export type Dictionary = {
     titleItalic: string;
     statement: string;
     detail1: string;
-    detail2: string;
+    // detail2: string;
     values: { title: string; text: string }[];
   };
   kontakty: {

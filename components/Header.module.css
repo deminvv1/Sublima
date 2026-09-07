@@ -12,6 +12,12 @@
   padding: 0 52px;
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.07);
   transition: background 0.5s ease, border-color 0.5s ease, backdrop-filter 0.5s ease;
+  /* forces its own compositing layer — otherwise Safari can fail to render
+     backdrop-filter at all on a fixed header sitting above a position:sticky
+     ancestor (e.g. the Collection scene), showing a flat un-blurred tint
+     instead */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 .header.transparent {
   background: rgba(20, 16, 14, 0.2);
@@ -261,20 +267,179 @@
   }
 }
 
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+}
+.burger span {
+  display: block;
+  width: 20px;
+  height: 1px;
+  background: #1a1714;
+  transition: transform 0.3s, opacity 0.3s, background 0.3s;
+}
+.header.transparent .burger span {
+  background: #f2ede4;
+}
+.burger.burgerOpen span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+.burger.burgerOpen span:nth-child(2) {
+  opacity: 0;
+}
+.burger.burgerOpen span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.cartQuick {
+  display: none;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--fb);
+  font-weight: 300;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #1a1714;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.25s;
+}
+.cartQuick.on,
+.cartQuick:hover {
+  color: rgba(26, 23, 20, 0.5);
+}
+.header.transparent .cartQuick {
+  color: #f2ede4;
+}
+.header.transparent .cartQuick.on,
+.header.transparent .cartQuick:hover {
+  color: rgba(242, 237, 228, 0.65);
+}
+.cartBadgeQuick {
+  position: absolute;
+  top: -6px;
+  right: -14px;
+  margin-left: 0;
+}
+
+.mobileMenu {
+  display: none;
+}
+
 @media (max-width: 767px) {
   .header {
     height: 54px;
     padding: 0 20px;
+    justify-content: center;
+    position: fixed;
+  }
+  .burger {
+    display: flex;
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .cartQuick {
+    display: flex;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .crumbs {
+    display: none;
   }
   .nav {
-    gap: 24px;
+    display: none;
+  }
+
+  .mobileMenu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 34px;
+    position: fixed;
+    inset: 0;
+    top: 54px;
+    background: #fdfcfa;
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease, background 0.5s ease, backdrop-filter 0.5s ease;
+    z-index: 190;
+  }
+  .mobileMenu.mobileMenuOpen {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  .mobileMenu.transparent {
+    background: rgba(14, 12, 10, 0.88);
+    backdrop-filter: blur(40px) saturate(1.3);
+    -webkit-backdrop-filter: blur(40px) saturate(1.3);
+  }
+  .header.menuOpen {
+    background: rgba(14, 12, 10, 0.88);
+    backdrop-filter: blur(40px) saturate(1.3);
+    -webkit-backdrop-filter: blur(40px) saturate(1.3);
+    border-bottom-color: transparent;
+  }
+  .header.menuOpen .logo,
+  .header.menuOpen .burger span,
+  .header.menuOpen .cartQuick {
+    color: #f2ede4;
+  }
+  .header.menuOpen .burger span {
+    background: #f2ede4;
+  }
+  .mobileMenu a {
+    font-family: var(--fb);
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #1a1714;
+    text-decoration: none;
+    transition: color 0.25s;
+  }
+  .mobileMenu a.on {
+    color: rgba(26, 23, 20, 0.5);
+  }
+  .mobileMenu.transparent a {
+    color: #f2ede4;
+  }
+  .mobileMenu.transparent a.on {
+    color: rgba(242, 237, 228, 0.55);
+  }
+  .mobileMenu .langSwitch {
+    margin-top: 12px;
+  }
+  .mobileMenu.transparent .langBtn {
+    color: rgba(242, 237, 228, 0.55);
+  }
+  .mobileMenu.transparent .langBtn:hover {
+    color: #f2ede4;
+  }
+  .mobileMenu.transparent .langBtn.langActive {
+    color: #f2ede4;
+    border-color: rgba(242, 237, 228, 0.4);
   }
 }
 
 @media (max-width: 480px) {
-  .nav {
-    gap: 18px;
-  }
   .navExtra {
     display: none;
   }
@@ -288,15 +453,11 @@
     font-size: 14px;
     letter-spacing: 0.28em;
   }
-  .nav {
-    gap: 12px;
+  .burger {
+    left: 14px;
   }
-  .langSwitch {
-    gap: 4px;
-    margin-left: 0;
-  }
-  .langBtn {
-    padding: 4px 5px;
+  .cartQuick {
+    right: 14px;
   }
 }
 
@@ -308,8 +469,11 @@
     font-size: 12px;
     letter-spacing: 0.18em;
   }
-  .nav {
-    gap: 8px;
+  .burger {
+    left: 10px;
+  }
+  .cartQuick {
+    right: 10px;
   }
 }
 
