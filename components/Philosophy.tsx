@@ -6,7 +6,14 @@ export default function Philosophy({ dict, image }: { dict: Dictionary; image: s
   return (
     <section className={styles.section}>
       <div className={styles.visual}>
-        <Image src={image} alt="" fill sizes="(max-width: 900px) 100vw, 46vw" className={styles.visualImg} />
+        <Image
+          src={image}
+          alt=""
+          fill
+          sizes="(max-width: 900px) 100vw, 46vw"
+          quality={90}
+          className={styles.visualImg}
+        />
       </div>
       <div className={styles.text}>
         <div className={styles.inner}>

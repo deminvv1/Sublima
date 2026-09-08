@@ -104,12 +104,20 @@ export default function OrderForm({ locale, dict }: { locale: Locale; dict: Dict
     setSubmitted(true);
   };
 
-  const visImage = cart[0]?.image ?? "/images/духи1.webp";
+  const visImage = "/images/foto-zakaz.webp";
 
   return (
     <div className={styles.page}>
       <div className={styles.vis}>
-        <Image src={visImage} alt="" fill sizes="44vw" priority className={styles["vis-img"]} />
+        <Image
+          src={visImage}
+          alt=""
+          fill
+          sizes="44vw"
+          priority
+          quality={90}
+          className={styles["vis-img"]}
+        />
         <div className={styles["vis-foot"]}>
           <div className={styles["vis-tag"]}>{dict.order.visTag}</div>
           <div className={styles["vis-quote"]}>

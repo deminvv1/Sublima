@@ -1,6 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  images: {
+    // Next's default re-encode quality (75) visibly softens hero-sized
+    // photos that are already compressed once on export — raise the ceiling
+    // so we can ask for a higher-quality encode on key visual images.
+    qualities: [75, 90],
+  },
   async redirects() {
     return [
       {

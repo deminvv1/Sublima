@@ -269,6 +269,7 @@ export default function CollectionScene({
                   alt=""
                   fill
                   sizes="55vw"
+                  quality={90}
                   className={styles.panelImg}
                   priority={i === cur}
                   fetchPriority={i === cur ? "high" : "low"}

@@ -154,7 +154,15 @@ export default function ProductDetail({
 
       <main className={styles["d-main"]} ref={mainRef}>
         <section ref={setSection(0)} className={`${styles.ds} ${styles["ds-hero"]}`}>
-          <Image src={p.images.hero} alt="" fill sizes="100vw" priority className={styles["ds-hero-img"]} />
+          <Image
+            src={p.images.hero}
+            alt=""
+            fill
+            sizes="100vw"
+            priority
+            quality={90}
+            className={styles["ds-hero-img"]}
+          />
           <div className={styles["ds-hero-ovl"]} />
           <div className={styles["ds-hero-body"]}>
             <span
@@ -206,7 +214,14 @@ export default function ProductDetail({
         </section>
 
         <section ref={setSection(2)} className={`${styles.ds} ${styles["ds-heart"]}`}>
-          <Image src={p.images.heart} alt="" fill sizes="100vw" className={styles["ds-heart-img"]} />
+          <Image
+            src={p.images.heart}
+            alt=""
+            fill
+            sizes="100vw"
+            quality={90}
+            className={styles["ds-heart-img"]}
+          />
           <div className={styles["ds-heart-ovl"]} />
           <div className={styles["ds-heart-body"]}>
             <div
@@ -323,7 +338,14 @@ export default function ProductDetail({
           </div>
 
           <div className={styles["cta-panel"]}>
-            <Image src={p.images.hero} alt="" fill sizes="55vw" className={styles["cta-panel-img"]} />
+            <Image
+              src={p.images.hero}
+              alt=""
+              fill
+              sizes="55vw"
+              quality={90}
+              className={styles["cta-panel-img"]}
+            />
             <div className={styles["cta-panel-ovl"]} />
             <div className={styles["cta-panel-body"]}>
               <div
