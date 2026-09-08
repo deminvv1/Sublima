@@ -1,10 +1,9 @@
+import Image from "next/image";
 import type { Dictionary } from "@/lib/i18n/types";
 import styles from "./FilosofiyaPage.module.css";
 
 // NOTE: copy is a draft placeholder — swap for the brand-approved text
-// (see lib/i18n/dictionaries), and drop the real video file at
-// public/videos/philosophy.mp4 (poster image is shown until then / if
-// the file is missing).
+// (see lib/i18n/dictionaries).
 export default function FilosofiyaPage({
   dict,
   posterImage,
@@ -15,9 +14,7 @@ export default function FilosofiyaPage({
   return (
     <div className={styles.page}>
       <section className={styles.hero}>
-        <video className={styles.video} poster={posterImage} autoPlay muted loop playsInline>
-          <source src="/videos/philosophy.mp4" type="video/mp4" />
-        </video>
+        <Image src={posterImage} alt="" fill sizes="100vw" quality={90} className={styles.video} />
         <div className={styles.heroOvl} />
         <div className={styles.heroBody}>
           <div className={styles.eyebrow}>{dict.filosofiya.eyebrow}</div>
